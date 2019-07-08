@@ -2,8 +2,6 @@ import React from 'react';
 import ReactModal from 'react-modal';
 import MoreInfo from './MoreInfo.jsx'
 
-ReactModal.setAppElement('#app');
-
 class App extends React.Component{
   constructor(){
     super();
