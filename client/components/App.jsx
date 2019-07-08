@@ -41,7 +41,7 @@ class App extends React.Component{
       </ReactModal>
       <button onClick={()=> this.toggleHide()}>Location Information goes here</button>
       <button onClick={()=> this.toggleHide()}>More Info</button>
-      <MoreInfo moreInfoHidden={this.state.moreInfoHidden}/>
+      <MoreInfo moreInfoOpen={this.state.moreInfoOpen}/>
     </div>);
   }
 }
