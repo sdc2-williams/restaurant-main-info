@@ -1,7 +1,7 @@
 import React from 'react';
 
-const MoreInfo = ({moreInfoHidden}) => {
-  if (moreInfoHidden){
+const MoreInfo = ({moreInfoOpen}) => {
+  if (!moreInfoOpen){
     return (
       <div>List of stuff...</div>
     );
