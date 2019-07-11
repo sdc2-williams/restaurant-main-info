@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('./db/models.js');
 
 const app = express();
 const PORT = 2000; //update later
