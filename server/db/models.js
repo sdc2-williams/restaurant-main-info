@@ -13,12 +13,17 @@ const restaurantSchema = new mongoose.Schema({
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
 //Insert new restaurant into database
-//
+
 const newRestaurant = (restObj) => {
   let newPlace = new Restaurant(restObj);
   return newPlace.save();
 };
 
+const getRestaurant = (restId, callback) => {
+  return Restaurant.findOne({ id: restId }, callback);
+};
+
 module.exports = {
   newRest: newRestaurant,
+  getRest: getRestaurant,
 };
