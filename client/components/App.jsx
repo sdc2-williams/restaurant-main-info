@@ -58,12 +58,13 @@ class App extends React.Component{
     super();
     this.state = {
       name:'Restaurant Name',
-      address: '',
+      address: 'address',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      location: [],
-      hours: [],
-      moreInfoOpen: true,
-      scheduleInfoOpen: false
+      location: [], //LAT and LONG cords
+      estDelivery: '', // Number from 0-60
+      hours: [], //array of Objects, properties = day, open, close
+      moreInfoOpen: true, //if more info div renders
+      scheduleInfoOpen: false //if schedule info div renders
     }
     this.toggleSchedule = this.toggleSchedule.bind(this); //required for setState to function while modal is open.
   }
@@ -74,8 +75,8 @@ class App extends React.Component{
     fetch(`/api/${id}`)
     .then(res =>{ return res.json(); })
     .then(data =>{
-      let { name, address, hours, location} = data[0];
-      this.setState({name, address, location, hours})
+      let { name, address, hours, location, description, estDelivery} = data[0];
+      this.setState({name, address, location, hours, description, estDelivery})
     })
   }
 
