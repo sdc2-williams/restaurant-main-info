@@ -7,21 +7,19 @@ const restaurantSchema = new mongoose.Schema({
   name: String,
   address: String,
   location: [Number],
-  hours:[{day: String, open: String, close: String}],
+  hours: [{ day: String, open: String, close: String }],
 });
 
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
-//Insert new restaurant into database
+//  Insert new restaurant into database
 
 const newRestaurant = (restObj) => {
-  let newPlace = new Restaurant(restObj);
+  const newPlace = new Restaurant(restObj);
   return newPlace.save();
 };
 
-const getRestaurant = (restId, callback) => {
-  return Restaurant.findOne({ id: restId }, callback);
-};
+const getRestaurant = (restId, callback) => Restaurant.find({ id: restId }, callback);
 
 module.exports = {
   newRest: newRestaurant,

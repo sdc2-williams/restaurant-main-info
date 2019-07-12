@@ -7,12 +7,24 @@ class App extends React.Component{
     super();
     this.state = {
       name:'Restaurant Name',
-      location: '',
-      currentLocation: '',
+      address: '',
+      location: [],
+      hours: [],
       moreInfoOpen: true,
       scheduleInfoOpen: false
     }
     this.toggleSchedule = this.toggleSchedule.bind(this); //required for setState to function while modal is open.
+  }
+
+  componentDidMount(){
+    console.log('mounted')
+    let id = window.location.pathname.split('/')[1];
+    fetch(`/api/${id}`)
+    .then(res =>{ return res.json(); })
+    .then(data =>{
+      let { name, address, hours, location} = data[0];
+      this.setState({name, address, location, hours})
+    })
   }
 
   //Toggles the More info window that opens More Info Component
@@ -30,16 +42,17 @@ class App extends React.Component{
   }
 
   render(){
+    let { name, address, hours, location, scheduleInfoOpen, moreInfoOpen} = this.state;
     return (
     <div>
-      <h1>{this.state.name}</h1>
+      <h1>{name}</h1>
       <button onClick={this.toggleSchedule}>Estimated Delivery Time goes here</button>
-      <ReactModal isOpen={this.state.scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
+      <ReactModal isOpen={scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
               <div>This is where the schedule component would go</div>
       </ReactModal>
-      <button onClick={()=> this.toggleHide()}>Location Information goes here</button>
+      <button onClick={()=> this.toggleHide()}>{address}</button>
       <button onClick={()=> this.toggleHide()}>More Info</button>
-      <MoreInfo moreInfoOpen={this.state.moreInfoOpen}/>
+      <MoreInfo moreInfoOpen={moreInfoOpen}/>
     </div>);
   }
 }
