@@ -63,7 +63,7 @@ class App extends React.Component{
       location: [], //LAT and LONG cords
       estDelivery: '', // Number from 0-60
       hours: [], //array of Objects, properties = day, open, close
-      moreInfoOpen: true, //if more info div renders
+      moreInfoOpen: false, //if more info div renders
       scheduleInfoOpen: false //if schedule info div renders
     }
     this.toggleSchedule = this.toggleSchedule.bind(this); //required for setState to function while modal is open.
@@ -95,18 +95,19 @@ class App extends React.Component{
   }
 
   render(){
-    let { name, address, hours, location, scheduleInfoOpen, moreInfoOpen, description} = this.state;
+    //destructuring all of the state information
+    let { name, address, hours, location, scheduleInfoOpen, moreInfoOpen, description, estDelivery} = this.state;
     return (
     <div>
       <RestaurantName>{name}</RestaurantName>
       <RestaurantDes>{description}</RestaurantDes>
-      <button onClick={this.toggleSchedule}>Estimated Delivery Time goes here</button>
+      <button onClick={this.toggleSchedule}>{estDelivery}</button>
       <ReactModal isOpen={scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
               <div>This is where the schedule component would go</div>
       </ReactModal>
       <MoreInfoButton onClick={()=> this.toggleHide()}><span>{address}</span></MoreInfoButton>
       <MoreInfoButtonAni onClick={()=> this.toggleHide()}><span>More Info</span><span> ^ </span> </ MoreInfoButtonAni>
-      <MoreInfo moreInfoOpen={moreInfoOpen}/>
+      <MoreInfo storeInformation={this.state}/>
     </div>);
   }
 }
