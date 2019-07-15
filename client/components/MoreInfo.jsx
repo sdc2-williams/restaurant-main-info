@@ -1,5 +1,22 @@
 import React from 'react';
-import key from '../../config.js'
+import key from '../../config.js';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 30px 0px 0px 0px;
+  border-top: 1px solid lightgray;
+`
+const HoursTable = styled.table`
+  grid-column-start: 1;
+  grid-column-end: 2;
+`
+const LocationMap = styled.div`
+  grid-column-start: 2;
+  grid-column-end: 3;
+`
+
 
 class MoreInfo extends React.Component{
   constructor(props){
@@ -17,8 +34,8 @@ class MoreInfo extends React.Component{
     //if the moreinfo state is True, the moreInfo component will render
     if (moreInfoOpen){
       return (
-        <div>
-          <table>
+        <Wrapper>
+          <HoursTable>
             <thead></thead>
             <tbody>
             {hours.map(day => {
@@ -29,12 +46,12 @@ class MoreInfo extends React.Component{
               </tr>)
             })}
             </tbody>
-          </table>
-          <div>
+          </HoursTable>
+          <LocationMap>
             <iframe src={`https://www.google.com/maps/embed/v1/place?key=${key.key}
     &q=Space+Needle,Seattle+WA`}></iframe>
-          </div>
-        </div>
+          </LocationMap>
+        </Wrapper>
       );
     } else {
       return (

@@ -3,10 +3,14 @@ import ReactModal from 'react-modal';
 import MoreInfo from './MoreInfo.jsx'
 import styled from 'styled-components'
 
+const MainBar = styled.div`
+  width: 1024px;
+`
+//will most likely need to change MainBar to a flexbox to make it work with other components
 const RestaurantDes = styled.h2`
     font: Helvetica Neue;
     font-size: 14px;
-    letter-spacing: 0.14px;
+    letter-spacing: 0.20px;
     font-weight: 400;
     line-height: normal;
     color: rgb(143, 149, 163);
@@ -15,7 +19,6 @@ const RestaurantDes = styled.h2`
 `
 
 const MoreInfoButton = styled.button`
-  focus: {outline:0};
   align-items: center;
   height: 32px;
   background-color: rgb(255, 255, 255);
@@ -29,7 +32,6 @@ const MoreInfoButton = styled.button`
   }
 `
 const MoreInfoButtonAni = styled.button`
-  focus {outline:0;}
   align-items: center;
   height: 32px;
   background-color: rgb(255, 255, 255);
@@ -98,17 +100,19 @@ class App extends React.Component{
     //destructuring all of the state information
     let { name, address, hours, location, scheduleInfoOpen, moreInfoOpen, description, estDelivery} = this.state;
     return (
-    <div>
+    <MainBar>
       <RestaurantName>{name}</RestaurantName>
       <RestaurantDes>{description}</RestaurantDes>
-      <button onClick={this.toggleSchedule}>{estDelivery}</button>
+      <div>
+      <MoreInfoButton onClick={this.toggleSchedule}>{estDelivery}-{estDelivery + 15} MIN</MoreInfoButton>
       <ReactModal isOpen={scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
               <div>This is where the schedule component would go</div>
       </ReactModal>
       <MoreInfoButton onClick={()=> this.toggleHide()}><span>{address}</span></MoreInfoButton>
       <MoreInfoButtonAni onClick={()=> this.toggleHide()}><span>More Info</span><span> ^ </span> </ MoreInfoButtonAni>
+      </div>
       <MoreInfo storeInformation={this.state}/>
-    </div>);
+    </MainBar>);
   }
 }
 
