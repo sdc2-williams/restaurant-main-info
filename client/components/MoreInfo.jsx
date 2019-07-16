@@ -49,7 +49,7 @@ class MoreInfo extends React.Component{
           </HoursTable>
           <LocationMap>
             <iframe src={`https://www.google.com/maps/embed/v1/place?key=${key.key}
-    &q=Space+Needle,Seattle+WA`}></iframe>
+    &q=Mcdonalds,sandiego+CA`} frameBorder="0"></iframe>
           </LocationMap>
         </Wrapper>
       );

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import MoreInfo from './MoreInfo.jsx'
+import MoreInfo from './MoreInfo.jsx';
+import ScheduleDelivery from './ScheduleDelivery.jsx';
 import styled from 'styled-components'
 
 const MainBar = styled.div`
@@ -20,6 +21,7 @@ const RestaurantDes = styled.h2`
 
 const MoreInfoButton = styled.button`
   align-items: center;
+  outline: none;
   height: 32px;
   background-color: rgb(255, 255, 255);
   text-transform: uppercase;
@@ -33,6 +35,7 @@ const MoreInfoButton = styled.button`
 `
 const MoreInfoButtonAni = styled.button`
   align-items: center;
+  outline: none;
   height: 32px;
   background-color: rgb(255, 255, 255);
   text-transform: uppercase;
@@ -54,7 +57,19 @@ const RestaurantName = styled.h1`
   line-height: normal;
   margin: 0px 0px 0px 0px;
 `
+const MapIcon = styled.span`
+  background: url(images/map.svg) no-repeat left center;
+  padding-left: 12px;
+`
 
+const TimeIcon = styled.span`
+  background: url(images/time.svg) no-repeat left center;
+  padding-left: 15px;
+`
+const MoreInfoIcon = styled.span`
+  background: url(images/down-chevron.svg) no-repeat right center;
+  padding-right: 15px;
+`
 class App extends React.Component{
   constructor(){
     super();
@@ -104,12 +119,12 @@ class App extends React.Component{
       <RestaurantName>{name}</RestaurantName>
       <RestaurantDes>{description}</RestaurantDes>
       <div>
-      <MoreInfoButton onClick={this.toggleSchedule}>{estDelivery}-{estDelivery + 15} MIN</MoreInfoButton>
+      <MoreInfoButton onClick={this.toggleSchedule}><TimeIcon>{estDelivery}-{estDelivery + 15} MIN</TimeIcon></MoreInfoButton>
       <ReactModal isOpen={scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
-              <div>This is where the schedule component would go</div>
+              <ScheduleDelivery />
       </ReactModal>
-      <MoreInfoButton onClick={()=> this.toggleHide()}><span>{address}</span></MoreInfoButton>
-      <MoreInfoButtonAni onClick={()=> this.toggleHide()}><span>More Info</span><span> ^ </span> </ MoreInfoButtonAni>
+      <MoreInfoButton onClick={()=> this.toggleHide()}><MapIcon>{address}</MapIcon></MoreInfoButton>
+      <MoreInfoButtonAni onClick={()=> this.toggleHide()}><MoreInfoIcon>More Info</MoreInfoIcon></ MoreInfoButtonAni>
       </div>
       <MoreInfo storeInformation={this.state}/>
     </MainBar>);
