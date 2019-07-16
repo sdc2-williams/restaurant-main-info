@@ -8,6 +8,13 @@ const Wrapper = styled.div`
   padding: 30px 0px 0px 0px;
   border-top: 1px solid lightgray;
 `
+const TableRow = styled.tr`
+  font-weight: ${props => {
+    let date = new Date();
+    return props.daynum === date.getDay() ? "bold" : "none";
+  }
+}
+`
 const HoursTable = styled.table`
   grid-column-start: 1;
   grid-column-end: 2;
@@ -38,12 +45,12 @@ class MoreInfo extends React.Component{
           <HoursTable>
             <thead></thead>
             <tbody>
-            {hours.map(day => {
+            {hours.map((day, i)=> {
               return (
-              <tr key={day._id}>
+              <TableRow daynum={i+1} key={day._id}>
                 <td>{day.day}</td>
                 <td>{day.open}-{day.close}</td>
-              </tr>)
+              </TableRow>)
             })}
             </tbody>
           </HoursTable>
