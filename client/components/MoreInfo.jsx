@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import key from '../../config.js';
+
+const key = require('../../config.js') || 'Create_Key_for_maps_api';
 
 const Wrapper = styled.div`
   display: grid;
