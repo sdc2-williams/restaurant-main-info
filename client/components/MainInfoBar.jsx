@@ -73,8 +73,19 @@ const MoreInfoIcon = styled.span`
   background: url(images/down-chevron.svg) no-repeat right center;
   padding-right: 15px;
 `;
+// used with reactModal npm module.  Need to refactor to create modal without module.
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
 
-class App extends React.Component {
+class MainInfoBar extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -92,7 +103,7 @@ class App extends React.Component {
 
   componentDidMount() {
     const id = window.location.pathname.split('/')[1];
-    fetch(`/api/${id}`)
+    fetch(`/api/restaurant/${id}`)
       .then(res => res.json())
       .then((data) => {
         const {
@@ -131,7 +142,7 @@ class App extends React.Component {
       <MoreInfoButton onClick={this.toggleSchedule}>
         <TimeIcon>{estDelivery}-{estDelivery + 15} MIN</TimeIcon>
       </MoreInfoButton>
-      <ReactModal isOpen={scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
+      <ReactModal style={customStyles} isOpen={scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
               <ScheduleDelivery />
       </ReactModal>
       <MoreInfoButton onClick={() => this.toggleHide()}>
@@ -146,4 +157,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default MainInfoBar;
