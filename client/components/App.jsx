@@ -1,18 +1,100 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import MoreInfo from './MoreInfo.jsx'
+import MoreInfo from './MoreInfo.jsx';
+import ScheduleDelivery from './ScheduleDelivery.jsx';
+import styled from 'styled-components'
 
+const MainBar = styled.div`
+  width: 1024px;
+`
+//will most likely need to change MainBar to a flexbox to make it work with other components
+const RestaurantDes = styled.h2`
+    font: Helvetica Neue;
+    font-size: 14px;
+    letter-spacing: 0.20px;
+    font-weight: 400;
+    line-height: normal;
+    color: rgb(143, 149, 163);
+    padding: 0px;
+    margin: 0px 0px 10px 0px;
+`
+
+const MoreInfoButton = styled.button`
+  align-items: center;
+  outline: none;
+  height: 32px;
+  background-color: rgb(255, 255, 255);
+  text-transform: uppercase;
+  border-radius: 16px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rbg(217, 219, 224, 0.5);
+  &:hover {
+    background-color: gray;
+  }
+`
+const MoreInfoButtonAni = styled.button`
+  align-items: center;
+  outline: none;
+  height: 32px;
+  background-color: rgb(255, 255, 255);
+  text-transform: uppercase;
+  border-radius: 16px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rbg(217, 219, 224, 0.5);
+
+  &:hover {
+    background-color: gray;
+  }
+  `
+
+const RestaurantName = styled.h1`
+  font: Helvetica;
+  font-size: 38px;
+  letter-spacing: -2.4px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0px 0px 0px 0px;
+`
+const MapIcon = styled.span`
+  background: url(images/map.svg) no-repeat left center;
+  padding-left: 12px;
+`
+
+const TimeIcon = styled.span`
+  background: url(images/time.svg) no-repeat left center;
+  padding-left: 15px;
+`
+const MoreInfoIcon = styled.span`
+  background: url(images/down-chevron.svg) no-repeat right center;
+  padding-right: 15px;
+`
 class App extends React.Component{
   constructor(){
     super();
     this.state = {
       name:'Restaurant Name',
-      location: '',
-      currentLocation: '',
-      moreInfoOpen: true,
-      scheduleInfoOpen: false
+      address: 'address',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      location: [], //LAT and LONG cords
+      estDelivery: '', // Number from 0-60
+      hours: [], //array of Objects, properties = day, open, close
+      moreInfoOpen: false, //if more info div renders
+      scheduleInfoOpen: false //if schedule info div renders
     }
     this.toggleSchedule = this.toggleSchedule.bind(this); //required for setState to function while modal is open.
+  }
+
+  componentDidMount(){
+    console.log('mounted')
+    let id = window.location.pathname.split('/')[1];
+    fetch(`/api/${id}`)
+    .then(res =>{ return res.json(); })
+    .then(data =>{
+      let { name, address, hours, location, description, estDelivery} = data[0];
+      this.setState({name, address, location, hours, description, estDelivery})
+    })
   }
 
   //Toggles the More info window that opens More Info Component
@@ -30,17 +112,22 @@ class App extends React.Component{
   }
 
   render(){
+    //destructuring all of the state information
+    let { name, address, hours, location, scheduleInfoOpen, moreInfoOpen, description, estDelivery} = this.state;
     return (
-    <div>
-      <h1>{this.state.name}</h1>
-      <button onClick={this.toggleSchedule}>Estimated Delivery Time goes here</button>
-      <ReactModal isOpen={this.state.scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
-              <div>This is where the schedule component would go</div>
+    <MainBar>
+      <RestaurantName>{name}</RestaurantName>
+      <RestaurantDes>{description}</RestaurantDes>
+      <div>
+      <MoreInfoButton onClick={this.toggleSchedule}><TimeIcon>{estDelivery}-{estDelivery + 15} MIN</TimeIcon></MoreInfoButton>
+      <ReactModal isOpen={scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
+              <ScheduleDelivery />
       </ReactModal>
-      <button onClick={()=> this.toggleHide()}>Location Information goes here</button>
-      <button onClick={()=> this.toggleHide()}>More Info</button>
-      <MoreInfo moreInfoOpen={this.state.moreInfoOpen}/>
-    </div>);
+      <MoreInfoButton onClick={()=> this.toggleHide()}><MapIcon>{address}</MapIcon></MoreInfoButton>
+      <MoreInfoButtonAni onClick={()=> this.toggleHide()}><MoreInfoIcon>More Info</MoreInfoIcon></ MoreInfoButtonAni>
+      </div>
+      <MoreInfo storeInformation={this.state}/>
+    </MainBar>);
   }
 }
 
