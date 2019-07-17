@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactModal from 'react-modal';
+import styled from 'styled-components';
 import MoreInfo from './MoreInfo.jsx';
 import ScheduleDelivery from './ScheduleDelivery.jsx';
-import styled from 'styled-components'
 
 const MainBar = styled.div`
   width: 1024px;
-`
-//will most likely need to change MainBar to a flexbox to make it work with other components
+`;
+
+// will most likely need to change MainBar to a flexbox to make it work with other components
 const RestaurantDes = styled.h2`
     font: Helvetica Neue;
     font-size: 14px;
@@ -17,7 +18,7 @@ const RestaurantDes = styled.h2`
     color: rgb(143, 149, 163);
     padding: 0px;
     margin: 0px 0px 10px 0px;
-`
+`;
 
 const MoreInfoButton = styled.button`
   align-items: center;
@@ -32,7 +33,7 @@ const MoreInfoButton = styled.button`
   &:hover {
     background-color: gray;
   }
-`
+`;
 const MoreInfoButtonAni = styled.button`
   align-items: center;
   outline: none;
@@ -47,7 +48,7 @@ const MoreInfoButtonAni = styled.button`
   &:hover {
     background-color: gray;
   }
-  `
+  `;
 
 const RestaurantName = styled.h1`
   font: Helvetica;
@@ -56,75 +57,87 @@ const RestaurantName = styled.h1`
   font-weight: 600;
   line-height: normal;
   margin: 0px 0px 0px 0px;
-`
+`;
 const MapIcon = styled.span`
   background: url(images/map.svg) no-repeat left center;
   padding-left: 12px;
-`
+`;
 
 const TimeIcon = styled.span`
   background: url(images/time.svg) no-repeat left center;
   padding-left: 15px;
-`
+`;
 const MoreInfoIcon = styled.span`
   background: url(images/down-chevron.svg) no-repeat right center;
   padding-right: 15px;
-`
-class App extends React.Component{
-  constructor(){
+`;
+
+class App extends React.Component {
+  constructor() {
     super();
     this.state = {
-      name:'Restaurant Name',
+      name: 'Restaurant Name',
       address: 'address',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      location: [], //LAT and LONG cords
+      description: '',
+      location: [], // LAT and LONG cords
       estDelivery: '', // Number from 0-60
-      hours: [], //array of Objects, properties = day, open, close
-      moreInfoOpen: false, //if more info div renders
-      scheduleInfoOpen: false //if schedule info div renders
-    }
-    this.toggleSchedule = this.toggleSchedule.bind(this); //required for setState to function while modal is open.
+      hours: [], // array of Objects, properties = day, open, close
+      moreInfoOpen: false, // if more info div renders
+      scheduleInfoOpen: false, // if schedule info div renders
+    };
+    this.toggleSchedule = this.toggleSchedule.bind(this); // required for setState to function while modal is open.
   }
 
-  componentDidMount(){
-    console.log('mounted')
-    let id = window.location.pathname.split('/')[1];
+  componentDidMount() {
+    const id = window.location.pathname.split('/')[1];
     fetch(`/api/${id}`)
-    .then(res =>{ return res.json(); })
-    .then(data =>{
-      let { name, address, hours, location, description, estDelivery} = data[0];
-      this.setState({name, address, location, hours, description, estDelivery})
-    })
+      .then(res => res.json())
+      .then((data) => {
+        const {
+          name, address, hours, location, description, estDelivery,
+        } = data[0];
+        this.setState({
+          name, address, location, hours, description, estDelivery,
+        });
+      });
   }
 
-  //Toggles the More info window that opens More Info Component
-  toggleHide(){
-    this.setState((prevState) => ({
-      moreInfoOpen: !prevState.moreInfoOpen
+  // Toggles the More info window that opens More Info Component
+  toggleHide() {
+    this.setState(prevState => ({
+      moreInfoOpen: !prevState.moreInfoOpen,
     }));
   }
 
-  //Toggles for the button that opens the ReactModule that contains schedule component
-  toggleSchedule(){
-    this.setState((prevState) => ({
-      scheduleInfoOpen: !prevState.scheduleInfoOpen
+  // Toggles for the button that opens the ReactModule that contains schedule component
+  toggleSchedule() {
+    this.setState(prevState => ({
+      scheduleInfoOpen: !prevState.scheduleInfoOpen,
     }));
   }
 
-  render(){
-    //destructuring all of the state information
-    let { name, address, hours, location, scheduleInfoOpen, moreInfoOpen, description, estDelivery} = this.state;
+  render() {
+    // destructuring all of the state information
+    const {
+      name, address, hours, location, scheduleInfoOpen, moreInfoOpen, description, estDelivery,
+    } = this.state;
     return (
     <MainBar>
       <RestaurantName>{name}</RestaurantName>
       <RestaurantDes>{description}</RestaurantDes>
       <div>
-      <MoreInfoButton onClick={this.toggleSchedule}><TimeIcon>{estDelivery}-{estDelivery + 15} MIN</TimeIcon></MoreInfoButton>
+      <MoreInfoButton onClick={this.toggleSchedule}>
+        <TimeIcon>{estDelivery}-{estDelivery + 15} MIN</TimeIcon>
+      </MoreInfoButton>
       <ReactModal isOpen={scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
               <ScheduleDelivery />
       </ReactModal>
-      <MoreInfoButton onClick={()=> this.toggleHide()}><MapIcon>{address}</MapIcon></MoreInfoButton>
-      <MoreInfoButtonAni onClick={()=> this.toggleHide()}><MoreInfoIcon>More Info</MoreInfoIcon></ MoreInfoButtonAni>
+      <MoreInfoButton onClick={() => this.toggleHide()}>
+        <MapIcon>{address}</MapIcon>
+      </MoreInfoButton>
+      <MoreInfoButtonAni onClick={() => this.toggleHide()}>
+        <MoreInfoIcon>More Info</MoreInfoIcon>
+      </ MoreInfoButtonAni>
       </div>
       <MoreInfo storeInformation={this.state}/>
     </MainBar>);

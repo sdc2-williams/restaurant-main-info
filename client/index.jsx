@@ -6,6 +6,5 @@ import App from './components/App.jsx';
 
 ReactModal.setAppElement('#app');
 
-//entry point for webpack
-console.log('loaded');
+// entry point for webpack
 ReactDOM.render(<App />, document.getElementById('app'));

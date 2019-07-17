@@ -16,21 +16,20 @@ const Time = styled.div`
   border-bottom: 1px solid lightgray;
 `;
 
-const TimeSelect = ({ASAP}) => {
-if (ASAP){
-  return (
+const TimeSelect = ({ ASAP }) => {
+  if (ASAP) {
+    return (
   <div>
     <Day>Today</Day>
     <Time>As Soon as possible mins</Time>
-  </div>)
-}
-else {
+  </div>);
+  }
+
   return (
     <div>
       <Day>Sometime later dropdown</Day>
       <Time>Dropdown</Time>
-    </div>)
-}
-}
+    </div>);
+};
 
 export default TimeSelect;

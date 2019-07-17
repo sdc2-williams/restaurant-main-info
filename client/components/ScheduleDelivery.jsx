@@ -20,8 +20,8 @@ const ASAPButton = styled.button`
   border-style: none none solid;
   outline: none;
   border-radius: 0px;
-  border-bottom: ${props => props.ASAP === true ? `3px solid rgb(0, 204, 153)`: "white"};
-  `
+  border-bottom: ${props => (props.ASAP === true ? '3px solid rgb(0, 204, 153)' : 'white')};
+  `;
 
 const ScheduleButton = styled.button`
   cursor: pointer;
@@ -37,7 +37,7 @@ const ScheduleButton = styled.button`
   border-style: none none solid;
   outline: none;
   border-radius: 0px;
-  border-bottom: ${props => !props.ASAP === true ? `3px solid rgb(0, 204, 153)`: "white"};
+  border-bottom: ${props => (!props.ASAP === true ? '3px solid rgb(0, 204, 153)' : 'white')};
 `;
 
 
@@ -61,42 +61,40 @@ const DeliveryTime = styled.button`
   padding-left: 50px;
 `;
 
-class ScheduleDelivery extends React.Component{
-  constructor(props){
-    super()
+class ScheduleDelivery extends React.Component {
+  constructor(props) {
+    super();
     this.state = {
       ASAP: true,
-    }
+    };
   }
 
-  onClickASAP (){
+  onClickASAP() {
     this.setState({
       ASAP: true,
     });
-    console.log('asap')
   }
 
-  onClickSchedule (){
+  onClickSchedule() {
     this.setState({
       ASAP: false,
-    })
-    console.log('schedule')
+    });
   }
 
-  render(){
-    let { ASAP } = this.state;
+  render() {
+    const { ASAP } = this.state;
     return (
     <div>
       <div>
       <h3>Select Delivery Time</h3>
       </div>
       <FlexBox>
-        <ASAPButton ASAP={ASAP} onClick={()=> this.onClickASAP()}>ASAP</ASAPButton>
-        <ScheduleButton ASAP={ASAP} onClick={()=> this.onClickSchedule()}>Schedule</ScheduleButton>
+        <ASAPButton ASAP={ASAP} onClick={() => this.onClickASAP()}>ASAP</ASAPButton>
+        <ScheduleButton ASAP={ASAP} onClick={() => this.onClickSchedule()}>Schedule</ScheduleButton>
       </FlexBox>
         <TimeSelect ASAP={ASAP}/>
       <DeliveryTime>SET DELIVERY TIME</DeliveryTime>
-    </div>)
+    </div>);
   }
 }
 
