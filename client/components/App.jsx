@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import MoreInfo from './MoreInfo.jsx';
 import ScheduleDelivery from './ScheduleDelivery.jsx';
 
+const fetch = require('node-fetch');
+
 const MainBar = styled.div`
   width: 1024px;
 `;
