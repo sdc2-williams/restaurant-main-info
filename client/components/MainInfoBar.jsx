@@ -7,8 +7,12 @@ import ScheduleDelivery from './ScheduleDelivery.jsx';
 const fetch = require('node-fetch');
 
 const MainBar = styled.div`
-  width: 1024px;
-`;
+@media screen and (min-width: 1060px){
+  max-width: 1024px;
+  margin: 0 auto;
+  box-sizing: content-box;
+  padding-bottom: 80px;
+}`;
 
 // will most likely need to change MainBar to a flexbox to make it work with other components
 const RestaurantDes = styled.h2`
