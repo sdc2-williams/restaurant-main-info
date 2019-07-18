@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 
-import App from './components/App.jsx';
+import MainInfoBar from './components/MainInfoBar.jsx';
 
-ReactModal.setAppElement('#app');
+ReactModal.setAppElement('#mainbar');
 
-//entry point for webpack
-console.log('loaded');
-ReactDOM.render(<App />, document.getElementById('app'));
+// entry point for webpack
+ReactDOM.render(<MainInfoBar />, document.getElementById('mainbar'));

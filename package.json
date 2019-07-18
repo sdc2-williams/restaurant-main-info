@@ -17,7 +17,10 @@
   "jest": {
     "setupFilesAfterEnv": [
       "<rootDir>client/setupTests.js"
-    ]
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   },
   "dependencies": {
     "@babel/core": "^7.5.0",
@@ -30,18 +33,25 @@
     "enzyme-adapter-react-16": "^1.14.0",
     "express": "^4.17.1",
     "jest": "^24.8.0",
+    "jsdom": "^15.1.1",
     "mongoose": "^5.6.4",
+    "node-fetch": "^2.6.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-modal": "^3.8.2",
     "styled-components": "^4.3.2",
+    "supertest": "^4.0.2",
     "webpack": "^4.35.3"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.5.0",
     "@google/maps": "^0.5.5",
+    "async": "^2.6.3",
+    "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
     "eslint": "^6.0.1",
     "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-babel": "^9.0.0",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "eslint-plugin-import": "^2.18.0",
     "lorem-ipsum": "^2.0.3",

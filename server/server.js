@@ -4,11 +4,11 @@ const models = require('./db/models.js');
 const app = express();
 const PORT = 2000; // update later
 
-app.use(express.static(__dirname + '/../public'));
-app.use('/:id', express.static(__dirname + '/../public'));
+app.use(express.static((`${__dirname}/../public`)));
+app.use('/:id', express.static((`${__dirname}/../public`)));
 
 // receives request at an id endpoint URL and returns, object containing restaurant data.
-app.get('/api/:id', (req, res) => {
+app.get('/api/restaurant/:id', (req, res) => {
   const restId = req.params.id;
   models.getRest(restId, (err, result) => {
     if (err) {
