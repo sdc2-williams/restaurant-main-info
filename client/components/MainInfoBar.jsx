@@ -65,16 +65,16 @@ const RestaurantName = styled.h1`
   margin: 0px 0px 0px 0px;
 `;
 const MapIcon = styled.span`
-  background: url(images/map.svg) no-repeat left center;
+  background: url(https://apfecfrodo2.s3-us-west-1.amazonaws.com/map.svg) no-repeat left center;
   padding-left: 12px;
 `;
 
 const TimeIcon = styled.span`
-  background: url(images/time.svg) no-repeat left center;
+  background: url(https://apfecfrodo2.s3-us-west-1.amazonaws.com/time.svg) no-repeat left center;
   padding-left: 15px;
 `;
 const MoreInfoIcon = styled.span`
-  background: url(images/down-chevron.svg) no-repeat right center;
+  background: url(https://apfecfrodo2.s3-us-west-1.amazonaws.com/down-chevron.svg) no-repeat right center;
   padding-right: 15px;
 `;
 // used with reactModal npm module.  Need to refactor to create modal without module.
