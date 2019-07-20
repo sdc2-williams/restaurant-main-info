@@ -15,7 +15,7 @@ let retryConnect = () => {
 
 // reconnectTries: 20, reconnectInterval: 5000
 
-mongoose.connect('mongodb://mongo:27017/restaurants', { useNewUrlParser: true})
+mongoose.connect('mongodb://mongo:27017/restaurants', { useNewUrlParser: true}).catch(err => console.log(err))
 
 const restaurantSchema = new mongoose.Schema({
   id: Number,
