@@ -93,7 +93,7 @@ class MainInfoBar extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: '',
+      name: 'Restaurant',
       address: 'address',
       description: '',
       location: [], // LAT and LONG cords
@@ -138,9 +138,6 @@ class MainInfoBar extends React.Component {
     const {
       name, address, hours, location, scheduleInfoOpen, moreInfoOpen, description, estDelivery,
     } = this.state;
-    if (name.length === 0){
-      return (<div></div>)
-    }
     return (
     <MainBar>
       <RestaurantName>{name}</RestaurantName>
@@ -162,7 +159,6 @@ class MainInfoBar extends React.Component {
       <MoreInfo storeInformation={this.state}/>
     </MainBar>);
     }
-  }
 }
 
 export default MainInfoBar;

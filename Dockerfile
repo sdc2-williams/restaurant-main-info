@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:8-jessie
 WORKDIR /usr/src/mainbar
 COPY package*.json ./
 RUN npm install
