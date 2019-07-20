@@ -25,4 +25,4 @@ build/
 public/
 
 #Config for Seeding with google places or using with google maps
-config.js
+
