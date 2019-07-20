@@ -1,6 +1,21 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/restaurants', { useNewUrlParser: true });
+// let retryConnect = () => {
+//   console.log('retrying connection to Mongo...')
+//   mongoose.connect('mongodb://mongo:27017/restaurants',
+//     { useNewUrlParser: true}, (err, result) => {
+//     if(err){
+//       console.log('error')
+//       console.log(err)
+//       setTimeout(retryConnect, 5000)
+//     }
+//     console.log('Connected to mongo')
+//   });
+// };
+
+// reconnectTries: 20, reconnectInterval: 5000
+
+mongoose.connect('mongodb://mongo:27017/restaurants', { useNewUrlParser: true})
 
 const restaurantSchema = new mongoose.Schema({
   id: Number,
