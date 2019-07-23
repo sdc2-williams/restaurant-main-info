@@ -13,9 +13,10 @@
 ## Setup (local)
 
 1. Install dependencies: `npm install`
-2. Make sure you have MongoDB installed and running.
-2. Seed database: `npm run seed`
-4. Start server: `npm start`
+2. Build code: `npm run build`
+3. Make sure you have MongoDB installed and running.
+4. Seed database: `npm run seed`
+5. Start server: `npm start`
 
 ## Usage (local)
 
