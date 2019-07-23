@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const key = require('../../config.js') || 'Create_Key_for_maps_api';
+// const key = require('../../config.js') || 'Create_Key_for_maps_api';
 
 const Wrapper = styled.div`
   display: grid;
@@ -55,8 +55,8 @@ class MoreInfo extends React.Component {
             </tbody>
           </HoursTable>
           <LocationMap>
-            <iframe src={`https://www.google.com/maps/embed/v1/place?key=${key.key}
-    &q=Mcdonalds,sandiego+CA`} frameBorder="0"></iframe>
+            {/* <iframe src={`https://www.google.com/maps/embed/v1/place?key=${key.key}
+    &q=Mcdonalds,sandiego+CA`} frameBorder="0"></iframe> */}
           </LocationMap>
         </Wrapper>
       );

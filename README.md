@@ -1,39 +1,23 @@
-# Project Name
-
-> Project description
+# Postmates
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+- https://github.com/sdc2-williams/nearby-carousel
+- https://github.com/sdc2-williams/menu-items
 
 ## Table of Contents
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+1. [Setup (local)](#setup-local)
+1. [Usage (local)](#usage-local)
 
-## Usage
+## Setup (local)
 
-> Some usage instructions
+1. Install dependencies: `npm install`
+2. Build code: `npm run build`
+3. Make sure you have MongoDB installed and running.
+4. Seed database: `npm run seed`
+5. Start server: `npm start`
 
-## Requirements
+## Usage (local)
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
-
-- Node 6.13.0
-- etc
-
-## Development
-
-### Installing Dependencies
-
-From within the root directory:
-
-```sh
-npm install -g webpack
-npm install
-```
-
+Once setup is complete, the app can be accessed at  `http://localhost:2000/<ID>/`.

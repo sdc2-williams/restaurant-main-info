@@ -65,16 +65,13 @@ const RestaurantName = styled.h1`
   margin: 0px 0px 0px 0px;
 `;
 const MapIcon = styled.span`
-  background: url(images/map.svg) no-repeat left center;
   padding-left: 12px;
 `;
 
 const TimeIcon = styled.span`
-  background: url(images/time.svg) no-repeat left center;
   padding-left: 15px;
 `;
 const MoreInfoIcon = styled.span`
-  background: url(images/down-chevron.svg) no-repeat right center;
   padding-right: 15px;
 `;
 // used with reactModal npm module.  Need to refactor to create modal without module.
