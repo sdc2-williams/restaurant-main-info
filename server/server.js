@@ -4,11 +4,12 @@ const models = require('./db/models.js');
 const app = express();
 const PORT = 2000;
 
+// Middleware
 app.use(express.static((`${__dirname}/../public`)));
 app.use('/:id', express.static((`${__dirname}/../public`)));
 app.use(express.json());
 
-
+// API routes
 app.get('/api/restaurant/name/:name', (req, res) => {
   const { name } = req.params;
 
