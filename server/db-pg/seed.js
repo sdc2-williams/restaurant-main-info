@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { LoremIpsum } = require('lorem-ipsum');
 // const model = require('./models.js');
 
@@ -60,23 +61,48 @@ const makeRestaurant = (id) => ({
   id,
   name: makeName(),
   description: makeDescription(),
-  address: makeAddress(),
-  location: makeLocation(),
-  hours: makeHours(),
+  // address: makeAddress(),
+  // location: makeLocation(),
+  // hours: makeHours(),
 });
+
+const formatLine = object => Object.values(object).join(',');
+
+// Takes an array of objects. Generates a CSV based on them.
+// Precondition: All objects have the same structure.
+const generateCSV = (items) => {
+  console.log(`Generating CSV of ${items.length} records...`);
+
+  console.log('- Formatting records...');
+  const head = Object.keys(items[0]).join(',');
+  const lines = head + '\n' + items.map(formatLine).join('\n');
+  console.log('- Formatting complete.');
+
+
+  console.log('- Writing records to file...');
+  const outputFile = `${__dirname}/restaurants.csv`;
+  fs.writeFile(outputFile, lines, (err, res) => {
+    if (!err) {
+      console.log('- Writing complete.');
+      console.log('CSV generated.');
+    }
+  });
+};
 
 
 // SEED SCRIPTS
-const startId = process.env.START_ID || 100;
-const endId = process.env.END_ID || 110;
+const startId = process.env.START_ID || 1;
+const endId = process.env.END_ID || 1000000;
 
 const seed = () => {
   const restaurants = [];
+  console.log('Generating mock data...');
   for (let id = startId; id <= endId; id += 1) {
     restaurants.push(makeRestaurant(id));
   }
+  console.log('Data generated.');
 
-  console.log(restaurants);
+  generateCSV(restaurants);
 };
 
 seed();
