@@ -19,9 +19,9 @@ app.get('/api/restaurant/name/:name', (req, res) => {
 });
 
 app.get('/api/restaurant/:id', (req, res) => {
-  const restId = req.params.id;
+  const { id } = req.params;
 
-  models.getRest(restId)
+  models.getRest(id)
     .then(restData => res.status(202).send(restData).end())
     .catch(err => res.status(400).send(err).end());
 });
