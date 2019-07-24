@@ -2,13 +2,12 @@ const express = require('express');
 const models = require('./db/models.js');
 
 const app = express();
-const PORT = 2000; // update later
+const PORT = 2000;
 
 app.use(express.static((`${__dirname}/../public`)));
 app.use('/:id', express.static((`${__dirname}/../public`)));
 app.use(express.json());
 
-// receives request at an id endpoint URL and returns, object containing restaurant data.
 app.get('/api/restaurant/:id', (req, res) => {
   const restId = req.params.id;
 
