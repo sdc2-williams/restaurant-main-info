@@ -11,4 +11,4 @@ create table restaurants (
 );
 
 -- To load, run:
--- psql -d [db name] -f db.sql
+-- psql -d [db name] -f schema.sql
