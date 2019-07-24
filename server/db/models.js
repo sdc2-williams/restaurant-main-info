@@ -30,10 +30,10 @@ const restaurantSchema = new mongoose.Schema({
 
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
-//  Insert new restaurant into database
-
-const newRestaurants = (restArr) => {
-  Restaurant.insertMany(restArr).then(data => console.log('documents inserted')).catch(err => console.log(err));
+const newRestaurants = (restaurants) => {
+  Restaurant.insertMany(restaurants)
+    .then(data => console.log('documents inserted'))
+    .catch(err => console.log(err));
 };
 
 const getRestaurant = id => Restaurant.find({ id });
@@ -44,9 +44,12 @@ const updateRestaurant = (id, valuesToUpdate) => {
   return Restaurant.findOneAndUpdate({ id }, valuesToUpdate, { new: true });
 };
 
+const postRestaurant = newRestaurant => Restaurant.create(newRestaurant);
+
 module.exports = {
   newRests: newRestaurants,
   getRest: getRestaurant,
   deleteRest: deleteRestaurant,
   updateRest: updateRestaurant,
+  postRest: postRestaurant,
 };

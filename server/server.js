@@ -17,6 +17,14 @@ app.get('/api/restaurant/:id', (req, res) => {
     .catch(err => res.status(400).send(err).end());
 });
 
+app.post('/api/restaurant', (req, res) => {
+  const newRestaurant = req.body;
+
+  models.postRest(newRestaurant)
+    .then(() => res.json(newRestaurant))
+    .catch(err => res.status(400).send(err).end());
+});
+
 app.put('/api/restaurant/:id', (req, res) => {
   const { id } = req.params;
   const valuesToUpdate = req.body;
