@@ -38,6 +38,8 @@ const newRestaurants = (restaurants) => {
 
 const getRestaurant = id => Restaurant.find({ id });
 
+const getRestaurantByName = name => Restaurant.find({ name });
+
 const deleteRestaurant = id => Restaurant.deleteOne({ id });
 
 const updateRestaurant = (id, valuesToUpdate) => {
@@ -49,6 +51,7 @@ const postRestaurant = newRestaurant => Restaurant.create(newRestaurant);
 module.exports = {
   newRests: newRestaurants,
   getRest: getRestaurant,
+  getRestByName: getRestaurantByName,
   deleteRest: deleteRestaurant,
   updateRest: updateRestaurant,
   postRest: postRestaurant,

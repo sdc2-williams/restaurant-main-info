@@ -8,6 +8,15 @@ app.use(express.static((`${__dirname}/../public`)));
 app.use('/:id', express.static((`${__dirname}/../public`)));
 app.use(express.json());
 
+
+app.get('/api/restaurant/name/:name', (req, res) => {
+  const { name } = req.params;
+
+  models.getRestByName(name)
+    .then(restData => res.status(202).send(restData).end())
+    .catch(err => res.status(400).send(err).end());
+});
+
 app.get('/api/restaurant/:id', (req, res) => {
   const restId = req.params.id;
 
