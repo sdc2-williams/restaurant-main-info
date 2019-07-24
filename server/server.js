@@ -1,13 +1,12 @@
 const express = require('express');
 const models = require('./db/models.js');
 
-// TODO: use express.json() middleware
-
 const app = express();
 const PORT = 2000; // update later
 
 app.use(express.static((`${__dirname}/../public`)));
 app.use('/:id', express.static((`${__dirname}/../public`)));
+app.use(express.json());
 
 // receives request at an id endpoint URL and returns, object containing restaurant data.
 app.get('/api/restaurant/:id', (req, res) => {
@@ -18,10 +17,13 @@ app.get('/api/restaurant/:id', (req, res) => {
     .catch(err => res.status(400).send(err).end());
 });
 
-// TODO
 app.put('/api/restaurant/:id', (req, res) => {
   const { id } = req.params;
-  res.end('todo');
+  const valuesToUpdate = req.body;
+
+  models.updateRest(id, valuesToUpdate)
+    .then(updatedRest => res.json(updatedRest))
+    .catch(err => res.status(400).send(err).end());
 });
 
 app.delete('/api/restaurant/:id', (req, res) => {

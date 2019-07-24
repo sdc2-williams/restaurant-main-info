@@ -40,8 +40,13 @@ const getRestaurant = id => Restaurant.find({ id });
 
 const deleteRestaurant = id => Restaurant.deleteOne({ id });
 
+const updateRestaurant = (id, valuesToUpdate) => {
+  return Restaurant.findOneAndUpdate({ id }, valuesToUpdate, { new: true });
+};
+
 module.exports = {
   newRests: newRestaurants,
   getRest: getRestaurant,
   deleteRest: deleteRestaurant,
+  updateRest: updateRestaurant,
 };
