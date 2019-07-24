@@ -36,9 +36,12 @@ const newRestaurants = (restArr) => {
   Restaurant.insertMany(restArr).then(data => console.log('documents inserted')).catch(err => console.log(err));
 };
 
-const getRestaurant = restId => Restaurant.find({ id: restId });
+const getRestaurant = id => Restaurant.find({ id });
+
+const deleteRestaurant = id => Restaurant.deleteOne({ id });
 
 module.exports = {
   newRests: newRestaurants,
   getRest: getRestaurant,
+  deleteRest: deleteRestaurant,
 };

@@ -24,6 +24,17 @@ app.put('/api/restaurant/:id', (req, res) => {
   res.end('todo');
 });
 
+app.delete('/api/restaurant/:id', (req, res) => {
+  const { id } = req.params;
+  let deletedRest;
+
+  models.getRest(id)
+    .then(dbResponse => deletedRest = dbResponse)
+    .then(() => models.deleteRest(id))
+    .then(() => res.json(deletedRest))
+    .catch(err => res.status(202).send(err).end());
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
