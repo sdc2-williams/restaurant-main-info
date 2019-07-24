@@ -36,7 +36,7 @@ const newRestaurants = (restArr) => {
   Restaurant.insertMany(restArr).then(data => console.log('documents inserted')).catch(err => console.log(err));
 };
 
-const getRestaurant = (restId, callback) => Restaurant.find({ id: restId }, callback);
+const getRestaurant = restId => Restaurant.find({ id: restId });
 
 module.exports = {
   newRests: newRestaurants,
