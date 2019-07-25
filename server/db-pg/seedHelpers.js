@@ -20,7 +20,7 @@ const makeName = () => lorem.generateWords(2);
 const makeDescription = () => lorem.generateSentences(2);
 
 // TODO: refactor this
-const makeAddress = () =>  Math.floor(Math.random() * Math.floor(100)) + ' ' + lorem.generateWords(1) + ' ' + ['St.', 'Blvd.', 'Rd.'][Math.floor(Math.random() * Math.floor(3))];
+const makeAddress = () => Math.floor(Math.random() * Math.floor(100)) + ' ' + lorem.generateWords(1) + ' ' + ['St.', 'Blvd.', 'Rd.'][Math.floor(Math.random() * Math.floor(3))];
 
 const makeDeliveryTime = () => Math.floor(Math.random() * Math.floor(60));
 
