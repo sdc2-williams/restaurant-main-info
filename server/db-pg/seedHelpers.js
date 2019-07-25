@@ -13,7 +13,6 @@ const lorem = new LoremIpsum({
   },
 });
 
-// HELPER FUNCTIONS
 const makeName = () => lorem.generateWords(2);
 
 const makeDescription = () => lorem.generateSentences(2);
@@ -129,15 +128,8 @@ const seedInChunks = () => {
     process.stdout.write('.');
   });
 
-  console.log('\nAll chunks generated. Have a nice day.');
+  console.log('\nAll chunks generated.');
 };
-
-// seedInChunks();
-
-// TO COPY CSV INTO TABLE
-// in pgsql, run:
-// copy rest_test from '/Users/thomas/Coding/Hack-Reactor/sdc/restaurant-main-info/server/db-pg/restaurants.csv' csv delimiter ',' header;
-// TODO: find the bash version of this
 
 module.exports = {
   seedInChunks,
