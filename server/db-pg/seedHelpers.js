@@ -4,7 +4,7 @@ const { LoremIpsum } = require('lorem-ipsum');
 
 require('dotenv').config();
 
-const databaseName = process.env.DATABASE_NAME;
+const database = process.env.DATABASE_NAME;
 const startId = Number(process.env.START_ID) || 1;
 const endId = Number(process.env.END_ID) || 1000;
 
@@ -136,7 +136,7 @@ const seedInChunks = () => {
 };
 
 const loadCSVIntoDatabase = () => new Promise((resolve, reject) => {
-  const command = exec(`psql -d ${databaseName} -c "copy restaurants from '${__dirname}/restaurants.csv' csv delimiter ','"`);
+  const command = exec(`psql -d ${database} -c "copy restaurants from '${__dirname}/restaurants.csv' csv delimiter ','"`);
 
   command.stderr.on('data', (err) => {
     reject(err);
@@ -152,7 +152,7 @@ const loadCSVIntoDatabase = () => new Promise((resolve, reject) => {
 });
 
 const clearTable = () => new Promise((resolve, reject) => {
-  const command = exec(`psql -d ${databaseName} -f ${__dirname}/schema.sql`);
+  const command = exec(`psql -d ${database} -f ${__dirname}/schema.sql`);
 
   command.on('close', (code) => {
     if (code === 0) {
@@ -171,7 +171,7 @@ const handleSeeding = () => {
     .then(() => console.log('Loading CSV into database...'))
     .then(() => loadCSVIntoDatabase())
     .then(() => {
-      console.log('CSC loaded into database');
+      console.log('CSV loaded into database');
       console.log('Database seeded successfully. Have a nice day.');
     })
     .catch(err => console.log('Error seeding database:', err));
