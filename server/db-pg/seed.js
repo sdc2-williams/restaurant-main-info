@@ -100,26 +100,19 @@ const generateCSV = (items) => {
 };
 
 const addToCSV = (items) => {
-  console.log('Appending to CSV.');
-  const lines = items.map(formatLine).join('\n');
-  console.log('- Formatting complete.');
+  const lines = '\n' + items.map(formatLine).join('\n');
 
-
-  console.log('- Appending records to file...');
   const outputFile = `${__dirname}/restaurants.csv`;
   fs.appendFileSync(outputFile, lines, (err) => {
-    if (!err) {
-      console.log('- Appending complete.');
-      console.log('CSV appended.');
-    } else {
-      console.error(err);
+    if (err) {
+      console.error(`Error appending to CSV: ${err}`);
     }
   });
 };
 
 // SEED SCRIPTS
 const startId = process.env.START_ID || 1;
-const endId = process.env.END_ID || 1000;
+const endId = process.env.END_ID || 100;
 
 //  OLD. Superseded by seedChunk
 // TODO: split into ten chunks, 1,000,000 each.
@@ -136,11 +129,10 @@ const seed = () => {
 
 const seedChunk = (start, end) => {
   const restaurants = [];
-  console.log('Generating mock data...');
+
   for (let id = start; id <= end; id += 1) {
     restaurants.push(makeRestaurant(id));
   }
-  console.log('Data generated.');
 
   addToCSV(restaurants);
 };
@@ -149,11 +141,11 @@ const seedChunk = (start, end) => {
 // example, `makeChunkRanges(1, 100)` => [[1, 11], [11, 21], ..., [90, 100]]
 const makeChunkRanges = (start, end) => {
   const numberOfChunks = 10;
-  const rangeLength = end - start + 1;
+  const rangeLength = end - start;
   const chunkSize = Math.floor(rangeLength / numberOfChunks);
 
   const ranges = [];
-  for (let i = start; i <= end; i += chunkSize) {
+  for (let i = start; i <= end; i += chunkSize + 1) {
     ranges.push([i, Math.min(i + chunkSize, end)]);
   }
 
@@ -178,9 +170,9 @@ const seedInChunks = () => {
 
 // seed();
 
-// console.log(makeChunkRanges(1, 100));
+console.log(makeChunkRanges(1, 100));
 
-seedInChunks();
+// seedInChunks();
 
 // seedChunk(1, 100);
 
