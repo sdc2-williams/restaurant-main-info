@@ -64,14 +64,18 @@ const makeHours = () => [{
   close: '1100',
 }];
 
+// The values of `location` and `hours` are stringified JSON. They are
+// surrounded by double quotes so Postgres knows they are strings. In `hours`,
+// the double quotes in the stringified object are surrounded by double quotes
+// because in Postgres you escape values in CSV by quoting them.
 const makeRestaurant = id => ({
   id,
   name: makeName(),
   description: makeDescription(),
   address: makeAddress(),
   estDelivery: makeDeliveryTime(),
-  // location: '"' + JSON.stringify(makeLocation()) + '"',
-  // hours: '"' + JSON.stringify(makeHours()) + '"',
+  location: '"' + JSON.stringify(makeLocation()) + '"',
+  hours: '"' + JSON.stringify(makeHours()).replace(/"/g, '""') + '"',
 });
 
 const formatLine = object => Object.values(object).join(',');
@@ -105,7 +109,7 @@ const seedChunk = (start, end) => {
 // Returns an array of sub-ranges that equally divide the given range. For
 // example, `makeChunkRanges(1, 100)` => [[1, 10], [11, 20], ..., [91, 100]]
 const makeChunkRanges = (start, end) => {
-  const numberOfChunks = 10; // Increase this number if you get out-of-memory errors when seeding
+  const numberOfChunks = 50; // Increase this number if you get out-of-memory errors when seeding
   const rangeLength = end - start;
   const chunkSize = Math.floor(rangeLength / numberOfChunks);
 
@@ -131,10 +135,8 @@ const seedInChunks = () => {
   console.log('\nAll chunks generated.');
 };
 
-
-// TODO: change 'rest_test' to 'restaurant'
 const loadCSVIntoDatabase = () => new Promise((resolve, reject) => {
-  const command = exec(`psql -d ${databaseName} -c "copy rest_test from '${__dirname}/restaurants.csv' csv delimiter ','"`);
+  const command = exec(`psql -d ${databaseName} -c "copy restaurants from '${__dirname}/restaurants.csv' csv delimiter ','"`);
 
   command.stderr.on('data', (err) => {
     reject(err);
