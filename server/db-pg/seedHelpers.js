@@ -139,6 +139,6 @@ const seedInChunks = () => {
 // copy rest_test from '/Users/thomas/Coding/Hack-Reactor/sdc/restaurant-main-info/server/db-pg/restaurants.csv' csv delimiter ',' header;
 // TODO: find the bash version of this
 
-module.exports {
-  seedInChunks
+module.exports = {
+  seedInChunks,
 };
