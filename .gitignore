@@ -26,3 +26,9 @@ public/
 
 #Config for Seeding with google places or using with google maps
 config.js
+
+# Enviromnet variables
+.env
+
+# DB files
+restaurants.csv
