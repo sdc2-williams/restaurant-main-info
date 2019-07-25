@@ -71,6 +71,12 @@ const makeRestaurant = id => ({
 
 const formatLine = object => Object.values(object).join(',');
 
+const clearCSV = () => {
+  const outputFile = `${__dirname}/restaurants.csv`;
+  fs.writeFileSync(outputFile, '');
+};
+
+// OLD. Supereded by addToCSV
 // TODO: switch to fs.appendFileSync
 // Takes an array of objects. Generates a CSV based on them.
 // Precondition: All objects have the same structure.
@@ -93,11 +99,29 @@ const generateCSV = (items) => {
   });
 };
 
+const addToCSV = (items) => {
+  console.log('Appending to CSV.');
+  const lines = items.map(formatLine).join('\n');
+  console.log('- Formatting complete.');
+
+
+  console.log('- Appending records to file...');
+  const outputFile = `${__dirname}/restaurants.csv`;
+  fs.appendFileSync(outputFile, lines, (err) => {
+    if (!err) {
+      console.log('- Appending complete.');
+      console.log('CSV appended.');
+    } else {
+      console.error(err);
+    }
+  });
+};
 
 // SEED SCRIPTS
 const startId = process.env.START_ID || 1;
-const endId = process.env.END_ID || 1000000;
+const endId = process.env.END_ID || 1000;
 
+//  OLD. Superseded by seedChunk
 // TODO: split into ten chunks, 1,000,000 each.
 const seed = () => {
   const restaurants = [];
@@ -110,12 +134,19 @@ const seed = () => {
   generateCSV(restaurants);
 };
 
-const seedChunk = ([start, end]) => {
+const seedChunk = (start, end) => {
+  const restaurants = [];
+  console.log('Generating mock data...');
+  for (let id = start; id <= end; id += 1) {
+    restaurants.push(makeRestaurant(id));
+  }
+  console.log('Data generated.');
 
+  addToCSV(restaurants);
 };
 
 // Returns an array of sub-ranges that equally divide the given range. For
-// example, `makeChunkRanges(1, 100)` => [[1, 11], [10, 21], ..., [90, 100]]
+// example, `makeChunkRanges(1, 100)` => [[1, 11], [11, 21], ..., [90, 100]]
 const makeChunkRanges = (start, end) => {
   const numberOfChunks = 10;
   const rangeLength = end - start + 1;
@@ -134,19 +165,24 @@ const seedInChunks = () => {
 
   console.log(`Generating ${chunkRanges.length} chunks of ${endId - startId + 1} total items...`);
 
+  clearCSV();
+
   chunkRanges.forEach((range, i) => {
-    console.log(`- Generating chunk ${i + 1}...`);
-    seedChunk(range);
-    console.log('- Done.');
+    process.stdout.write((i + 1).toString());
+    seedChunk(...range);
+    process.stdout.write('.');
   });
 
-  console.log('All chunks seeded. Have a nice day.');
-
+  console.log('\nAll chunks generated. Have a nice day.');
 };
 
 // seed();
 
-console.log(makeChunkRanges(1, 10000));
+// console.log(makeChunkRanges(1, 100));
+
+seedInChunks();
+
+// seedChunk(1, 100);
 
 // TO COPY CSV INTO TABLE
 // in pgsql, run:
