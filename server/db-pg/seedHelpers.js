@@ -1,8 +1,10 @@
 const fs = require('fs');
+const { exec } = require('child_process');
 const { LoremIpsum } = require('lorem-ipsum');
 
 require('dotenv').config();
 
+const databaseName = process.env.DATABASE_NAME;
 const startId = Number(process.env.START_ID) || 1;
 const endId = Number(process.env.END_ID) || 1000;
 
@@ -103,7 +105,7 @@ const seedChunk = (start, end) => {
 // Returns an array of sub-ranges that equally divide the given range. For
 // example, `makeChunkRanges(1, 100)` => [[1, 10], [11, 20], ..., [91, 100]]
 const makeChunkRanges = (start, end) => {
-  const numberOfChunks = 10;
+  const numberOfChunks = 10; // Increase this number if you get out-of-memory errors when seeding
   const rangeLength = end - start;
   const chunkSize = Math.floor(rangeLength / numberOfChunks);
 
@@ -117,9 +119,7 @@ const makeChunkRanges = (start, end) => {
 
 const seedInChunks = () => {
   const chunkRanges = makeChunkRanges(startId, endId);
-
-  console.log(`Generating ${chunkRanges.length} chunks of ${endId - startId + 1} total items...`);
-
+  console.log(`Generating ${chunkRanges.length} chunks...`);
   clearCSV();
 
   chunkRanges.forEach((range, i) => {
@@ -131,6 +131,50 @@ const seedInChunks = () => {
   console.log('\nAll chunks generated.');
 };
 
+
+// TODO: change 'rest_test' to 'restaurant'
+const loadCSVIntoDatabase = () => new Promise((resolve, reject) => {
+  const command = exec(`psql -d ${databaseName} -c "copy rest_test from '${__dirname}/restaurants.csv' csv delimiter ','"`);
+
+  command.stderr.on('data', (err) => {
+    reject(err);
+  });
+
+  command.on('close', (code) => {
+    if (code === 0) {
+      resolve('CSV data loaded into database.');
+    } else {
+      reject(new Error('Unable to add CSV data into database'));
+    }
+  });
+});
+
+const clearTable = () => new Promise((resolve, reject) => {
+  const command = exec(`psql -d ${databaseName} -f ${__dirname}/schema.sql`);
+
+  command.on('close', (code) => {
+    if (code === 0) {
+      resolve('`restaurants` table cleared.');
+    } else {
+      reject(new Error('Unable to clear table'));
+    }
+  });
+});
+
+const handleSeeding = () => {
+  console.log(`Seeding database with ${endId - startId + 1} items...`);
+
+  return clearTable()
+    .then(() => seedInChunks())
+    .then(() => console.log('Loading CSV into database...'))
+    .then(() => loadCSVIntoDatabase())
+    .then(() => {
+      console.log('CSC loaded into database');
+      console.log('Database seeded successfully. Have a nice day.');
+    })
+    .catch(err => console.log('Error seeding database:', err));
+};
+
 module.exports = {
-  seedInChunks,
+  handleSeeding,
 };
