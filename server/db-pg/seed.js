@@ -102,7 +102,7 @@ const seedChunk = (start, end) => {
 };
 
 // Returns an array of sub-ranges that equally divide the given range. For
-// example, `makeChunkRanges(1, 100)` => [[1, 11], [11, 21], ..., [90, 100]]
+// example, `makeChunkRanges(1, 100)` => [[1, 10], [11, 20], ..., [91, 100]]
 const makeChunkRanges = (start, end) => {
   const numberOfChunks = 10;
   const rangeLength = end - start;
@@ -132,9 +132,7 @@ const seedInChunks = () => {
   console.log('\nAll chunks generated. Have a nice day.');
 };
 
-seedInChunks();
-
-// seedChunk(1, 100);
+// seedInChunks();
 
 // TO COPY CSV INTO TABLE
 // in pgsql, run:
