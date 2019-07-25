@@ -76,29 +76,6 @@ const clearCSV = () => {
   fs.writeFileSync(outputFile, '');
 };
 
-// OLD. Supereded by addToCSV
-// TODO: switch to fs.appendFileSync
-// Takes an array of objects. Generates a CSV based on them.
-// Precondition: All objects have the same structure.
-const generateCSV = (items) => {
-  console.log(`Generating CSV of ${items.length} records...`);
-
-  console.log('- Formatting records...');
-  const head = Object.keys(items[0]).join(',');
-  const lines = head + '\n' + items.map(formatLine).join('\n');
-  console.log('- Formatting complete.');
-
-
-  console.log('- Writing records to file...');
-  const outputFile = `${__dirname}/restaurants.csv`;
-  fs.writeFile(outputFile, lines, (err, res) => {
-    if (!err) {
-      console.log('- Writing complete.');
-      console.log('CSV generated.');
-    }
-  });
-};
-
 const addToCSV = (items) => {
   const lines = items.map(formatLine).join('\n') + '\n';
 
@@ -112,20 +89,7 @@ const addToCSV = (items) => {
 
 // SEED SCRIPTS
 const startId = process.env.START_ID || 1;
-const endId = process.env.END_ID || 100;
-
-//  OLD. Superseded by seedChunk
-// TODO: split into ten chunks, 1,000,000 each.
-const seed = () => {
-  const restaurants = [];
-  console.log('Generating mock data...');
-  for (let id = startId; id <= endId; id += 1) {
-    restaurants.push(makeRestaurant(id));
-  }
-  console.log('Data generated.');
-
-  generateCSV(restaurants);
-};
+const endId = process.env.END_ID || 10000000;
 
 const seedChunk = (start, end) => {
   const restaurants = [];
@@ -167,10 +131,6 @@ const seedInChunks = () => {
 
   console.log('\nAll chunks generated. Have a nice day.');
 };
-
-// seed();
-
-// console.log(makeChunkRanges(1, 100));
 
 seedInChunks();
 
