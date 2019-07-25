@@ -1,6 +1,10 @@
 const fs = require('fs');
 const { LoremIpsum } = require('lorem-ipsum');
-// const model = require('./models.js');
+
+require('dotenv').config();
+
+const startId = Number(process.env.START_ID) || 1;
+const endId = Number(process.env.END_ID) || 1000;
 
 const lorem = new LoremIpsum({
   wordsPerSentence: {
@@ -87,10 +91,6 @@ const addToCSV = (items) => {
   });
 };
 
-// SEED SCRIPTS
-const startId = process.env.START_ID || 1;
-const endId = process.env.END_ID || 10000000;
-
 const seedChunk = (start, end) => {
   const restaurants = [];
 
@@ -137,3 +137,8 @@ const seedInChunks = () => {
 // TO COPY CSV INTO TABLE
 // in pgsql, run:
 // copy rest_test from '/Users/thomas/Coding/Hack-Reactor/sdc/restaurant-main-info/server/db-pg/restaurants.csv' csv delimiter ',' header;
+// TODO: find the bash version of this
+
+module.exports {
+  seedInChunks
+};

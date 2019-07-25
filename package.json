@@ -12,7 +12,7 @@
     "build": "webpack",
     "start": "node ./server/server.js",
     "start:dev": "nodemon ./server/server.js",
-    "seed": "node ./server/db/seed.js",
+    "seed": "psql -d sdc-tf3 -f /Users/thomas/Coding/Hack-Reactor/sdc/restaurant-main-info/server/db-pg/schema.sql && psql -d sdc-tf3 -c \"copy rest_test from '/Users/thomas/Coding/Hack-Reactor/sdc/restaurant-main-info/server/db-pg/restaurants.csv' csv delimiter ','\"",
     "test": "jest"
   },
   "jest": {
@@ -30,6 +30,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
+    "dotenv": "^8.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "express": "^4.17.1",
