@@ -100,7 +100,7 @@ const generateCSV = (items) => {
 };
 
 const addToCSV = (items) => {
-  const lines = '\n' + items.map(formatLine).join('\n');
+  const lines = items.map(formatLine).join('\n') + '\n';
 
   const outputFile = `${__dirname}/restaurants.csv`;
   fs.appendFileSync(outputFile, lines, (err) => {
@@ -170,9 +170,9 @@ const seedInChunks = () => {
 
 // seed();
 
-console.log(makeChunkRanges(1, 100));
+// console.log(makeChunkRanges(1, 100));
 
-// seedInChunks();
+seedInChunks();
 
 // seedChunk(1, 100);
 
