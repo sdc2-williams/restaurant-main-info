@@ -17,6 +17,8 @@ const makeDescription = () => lorem.generateSentences(2);
 // TODO: refactor this
 const makeAddress = () =>  Math.floor(Math.random() * Math.floor(100)) + ' ' + lorem.generateWords(1) + ' ' + ['St.', 'Blvd.', 'Rd.'][Math.floor(Math.random() * Math.floor(3))];
 
+const makeDeliveryTime = () => Math.floor(Math.random() * Math.floor(60));
+
 // TODO: fix this
 const makeLocation = () => [33.067149, -117.263955];
 
@@ -57,17 +59,19 @@ const makeHours = () => [{
   close: '1100',
 }];
 
-const makeRestaurant = (id) => ({
+const makeRestaurant = id => ({
   id,
   name: makeName(),
   description: makeDescription(),
-  // address: makeAddress(),
-  // location: makeLocation(),
-  // hours: makeHours(),
+  address: makeAddress(),
+  estDelivery: makeDeliveryTime(),
+  // location: '"' + JSON.stringify(makeLocation()) + '"',
+  // hours: '"' + JSON.stringify(makeHours()) + '"',
 });
 
 const formatLine = object => Object.values(object).join(',');
 
+// TODO: switch to fs.appendFileSync
 // Takes an array of objects. Generates a CSV based on them.
 // Precondition: All objects have the same structure.
 const generateCSV = (items) => {
@@ -94,6 +98,7 @@ const generateCSV = (items) => {
 const startId = process.env.START_ID || 1;
 const endId = process.env.END_ID || 1000000;
 
+// TODO: split into ten chunks, 1,000,000 each.
 const seed = () => {
   const restaurants = [];
   console.log('Generating mock data...');
@@ -105,4 +110,44 @@ const seed = () => {
   generateCSV(restaurants);
 };
 
-seed();
+const seedChunk = ([start, end]) => {
+
+};
+
+// Returns an array of sub-ranges that equally divide the given range. For
+// example, `makeChunkRanges(1, 100)` => [[1, 11], [10, 21], ..., [90, 100]]
+const makeChunkRanges = (start, end) => {
+  const numberOfChunks = 10;
+  const rangeLength = end - start + 1;
+  const chunkSize = Math.floor(rangeLength / numberOfChunks);
+
+  const ranges = [];
+  for (let i = start; i <= end; i += chunkSize) {
+    ranges.push([i, Math.min(i + chunkSize, end)]);
+  }
+
+  return ranges;
+};
+
+const seedInChunks = () => {
+  const chunkRanges = makeChunkRanges(startId, endId);
+
+  console.log(`Generating ${chunkRanges.length} chunks of ${endId - startId + 1} total items...`);
+
+  chunkRanges.forEach((range, i) => {
+    console.log(`- Generating chunk ${i + 1}...`);
+    seedChunk(range);
+    console.log('- Done.');
+  });
+
+  console.log('All chunks seeded. Have a nice day.');
+
+};
+
+// seed();
+
+console.log(makeChunkRanges(1, 10000));
+
+// TO COPY CSV INTO TABLE
+// in pgsql, run:
+// copy rest_test from '/Users/thomas/Coding/Hack-Reactor/sdc/restaurant-main-info/server/db-pg/restaurants.csv' csv delimiter ',' header;
