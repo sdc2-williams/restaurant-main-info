@@ -31,6 +31,13 @@ const getRestaurant = (id) => {
     .then(res => parseRestaurant(res.rows[0]));
 };
 
+const getRestaurantByName = (name) => {
+  const queryString = `select * from restaurants where name = '${name}'`;
+
+  return client.query(queryString)
+    .then(res => parseRestaurant(res.rows[0]));
+};
+
 const deleteRestaurant = (id) => {
   const queryString = `delete from restaurants where id = ${id} returning *`;
 
@@ -57,28 +64,9 @@ const postRestaurant = (restaurant) => {
   return client.query(queryString);
 };
 
-// deleteRestaurant(123)
-//   .then(console.log);
-
-// deleteRestaurant(12)
-  // .then(console.log);
-
-// const re = {
-//   id: 13,
-//   name: 'PanPan',
-//   description:
-//   'Amet adipisicing nulla ea laboris labore consequat ipsum id consectetur nulla. Nisi non id non amet.',
-//   address: '60 cillum Blvd.',
-//   estdelivery: 19,
-// };
-
-// updateRestaurant(13, re);
-
-// getRestaurant(13)
-//   .then(console.log);
-
 module.exports = {
   getRestaurant,
+  getRestaurantByName,
   deleteRestaurant,
   postRestaurant,
   updateRestaurant,
