@@ -10,6 +10,7 @@ module.exports = {
   parser: "babel-eslint",
   rules: {
     "no-console": "off",
-    "prefer-template": "off"
+    "prefer-template": "off",
+    "no-param-reassign": "off"
   }
 };
