@@ -58,7 +58,7 @@ const updateRestaurant = (id, valuesToUpdate) => {
 const postRestaurant = (restaurant) => {
   stringifyRestaurant(restaurant);
   const columns = Object.keys(restaurant);
-  const values = Object.values(restaurant);
+  const values = Object.values(restaurant); // must these be in single quotes?
   const queryString = `insert into restaurants(${columns.join(', ')}) values(${values.join(', ')})`;
 
   return client.query(queryString);

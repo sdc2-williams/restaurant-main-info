@@ -109,7 +109,7 @@ const seedChunk = (start, end) => {
 // Returns an array of sub-ranges that equally divide the given range. For
 // example, `makeChunkRanges(1, 100)` => [[1, 10], [11, 20], ..., [91, 100]]
 const makeChunkRanges = (start, end) => {
-  const numberOfChunks = 50; // Increase this number if you get out-of-memory errors when seeding
+  const numberOfChunks = 100; // Increase this number if you get out-of-memory errors when seeding
   const rangeLength = end - start;
   const chunkSize = Math.floor(rangeLength / numberOfChunks);
 
