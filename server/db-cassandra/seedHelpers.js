@@ -1,47 +1,52 @@
-const { makeRestaurant } = require('../db-pg/seedHelpers.js');
-const cd = require('cassandra-driver');
+const { exec } = require('child_process');
+const { seedInChunks } = require('../db-pg/seedHelpers.js');
+require('dotenv').config();
 
-const client = new cd.Client({ contactPoints: ['localhost'], localDataCenter: 'datacenter1', keyspace: 'test' });
+const startId = Number(process.env.START_ID) || 1;
+const endId = Number(process.env.END_ID) || 1000;
 
-const makeParams = restaurant => Object.values(restaurant);
+const loadCSVIntoDatabase = () => new Promise((resolve, reject) => {
+  const command = exec(`cqlsh -k main_info -f ${__dirname}/loadCSV.sql`);
 
-const makeQueries = restaurants => (
-  restaurants.map(restaurant => ({
-    query: 'insert into restaurants(id, name, description, address, estdelivery, location, hours) values(?, ?, ?, ?, ?, ?, ?)',
-    params: makeParams(restaurant),
-  }))
-);
+  command.stdout.on('data', console.log);
+  command.stderr.on('data', reject);
 
-const addBatchToDatabase = (restaurants) => {
-  const queries = makeQueries(restaurants);
+  command.on('close', (code) => {
+    if (code === 0) {
+      resolve('CSV data loaded into database.');
+    } else {
+      reject(new Error('Unable to add CSV data into database'));
+    }
+  });
+});
 
-  return client.batch(queries, { prepare: true });
+const clearTable = () => new Promise((resolve, reject) => {
+  const command = exec(`cqlsh -f '${__dirname}/schema.sql'`);
+
+  command.on('close', (code) => {
+    if (code === 0) {
+      resolve('`restaurants` table cleared.');
+    } else {
+      reject(new Error('Unable to clear table'));
+    }
+  });
+});
+
+
+const handleSeeding = () => {
+  console.log(`Seeding database with ${endId - startId + 1} items...`);
+
+  return clearTable()
+    .then(() => seedInChunks())
+    .then(() => console.log('Loading CSV into database...'))
+    .then(() => loadCSVIntoDatabase())
+    .then(() => {
+      console.log('CSV loaded into database');
+      console.log('Database seeded successfully. Have a nice day.');
+    })
+    .catch(err => console.log('Error seeding database:', err));
 };
 
-const makeRestaurants = (start, end) => {
-  const restaurants = [];
-  for (let i = start; i <= end; i += 1) {
-    restaurants.push(makeRestaurant(i));
-  }
-  return restaurants;
+module.exports = {
+  handleSeeding,
 };
-
-const restaurants = makeRestaurants(1, 10);
-
-const queryString = 'insert into restaurants(id, name, description, address, estdelivery, location, hours) values(?, ?, ?, ?, ?, ?, ?)';
-
-const params = [ 10,
-  'veniam ea',
-  'Ullamco aliquip Lorem ex irure reprehenderit in ex pariatur. Irure excepteur mollit eu elit.',
-  '96 elit Rd.',
-  5,
-  '"[33.067149,-117.263955]"',
-  '"[{""day"":""Monday"",""open"":""0500"",""close"":""1100""},{""day"":""Tuesday"",""open"":""0500"",""close"":""1100""},{""day"":""Wednesday"",""open"":""0500"",""close"":""1100""},{""day"":""Thursday"",""open"":""0500"",""close"":""1100""},{""day"":""Friday"",""open"":""0500"",""close"":""1100""},{""day"":""Saturday"",""open"":""0500"",""close"":""1100""},{""day"":""Sunday"",""open"":""0500"",""close"":""1100""}]"' ];
-
-// client.execute(queryString, params, { prepare: true })
-//   .then(console.log)
-//   .catch(console.error);
-
-// console.log(makeQueries(restaurants));
-
-addBatchToDatabase(restaurants);
