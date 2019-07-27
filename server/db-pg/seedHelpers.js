@@ -41,43 +41,6 @@ const makeHours = () => {
   return days.map(hoursFromDay);
 };
 
-
-// [{
-//   day: 'Monday',
-//   open: '0500',
-//   close: '1100',
-// },
-// {
-//   day: 'Tuesday',
-//   open: '0500',
-//   close: '1100',
-// },
-// {
-//   day: 'Wednesday',
-//   open: '0500',
-//   close: '1100',
-// },
-// {
-//   day: 'Thursday',
-//   open: '0500',
-//   close: '1100',
-// },
-// {
-//   day: 'Friday',
-//   open: '0500',
-//   close: '1100',
-// },
-// {
-//   day: 'Saturday',
-//   open: '0500',
-//   close: '1100',
-// },
-// {
-//   day: 'Sunday',
-//   open: '0500',
-//   close: '1100',
-// }];
-
 // The values of `location` and `hours` are stringified JSON. They are
 // surrounded by double quotes so Postgres knows they are strings. In `hours`,
 // the double quotes in the stringified object are surrounded by double quotes
@@ -195,6 +158,3 @@ module.exports = {
   handleSeeding,
   seedInChunks,
 };
-
-// console.log(makeHours());
-console.log(makeRestaurant(4));
