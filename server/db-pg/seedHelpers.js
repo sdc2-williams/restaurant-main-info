@@ -19,14 +19,14 @@ const makeName = () => lorem.generateWords(2);
 
 const makeDescription = () => lorem.generateSentences(2);
 
-// TODO: refactor this
-const makeAddress = () => Math.floor(Math.random() * Math.floor(100)) + ' ' + lorem.generateWords(1) + ' ' + ['St.', 'Blvd.', 'Rd.'][Math.floor(Math.random() * Math.floor(3))];
+const randomInt = (min, max) => min + Math.floor(Math.random() * max);
 
-const makeDeliveryTime = () => Math.floor(Math.random() * Math.floor(60));
+const makeAddress = () => `${randomInt(1, 300)} ${lorem.generateWords(1)} ${['St.', 'Blvd.', 'Rd.'][randomInt(0, 2)]}`;
+
+const makeDeliveryTime = () => randomInt(1, 60);
 
 // TODO: fix this
 const makeLocation = () => [33.067149, -117.263955];
-
 
 const hoursFromDay = day => ({
   day,
@@ -196,4 +196,5 @@ module.exports = {
   seedInChunks,
 };
 
-console.log(makeHours());
+// console.log(makeHours());
+console.log(makeRestaurant(4));
