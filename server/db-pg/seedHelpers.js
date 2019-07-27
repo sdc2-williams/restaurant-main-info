@@ -8,6 +8,11 @@ const database = process.env.DATABASE_NAME;
 const startId = Number(process.env.START_ID) || 1;
 const endId = Number(process.env.END_ID) || 1000;
 
+// The number of chunks that the restaurant data will be divided into when
+// creating the CSV. Increase this number if you get out-of-memory errors while
+// seeding.
+const numberOfChunks = Number(process.env.NUMBER_OF_CHUNKS) || 100;
+
 const lorem = new LoremIpsum({
   wordsPerSentence: {
     max: 15,
@@ -85,8 +90,8 @@ const seedChunk = (start, end) => {
 
 // Returns an array of sub-ranges that equally divide the given range. For
 // example, `makeChunkRanges(1, 100)` => [[1, 10], [11, 20], ..., [91, 100]]
+// (Output varies depending on value of `numberOfChunks`.)
 const makeChunkRanges = (start, end) => {
-  const numberOfChunks = 100; // Increase this number if you get out-of-memory errors when seeding
   const rangeLength = end - start;
   const chunkSize = Math.floor(rangeLength / numberOfChunks);
 
