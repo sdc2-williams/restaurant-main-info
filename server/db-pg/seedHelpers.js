@@ -27,42 +27,56 @@ const makeDeliveryTime = () => Math.floor(Math.random() * Math.floor(60));
 // TODO: fix this
 const makeLocation = () => [33.067149, -117.263955];
 
-// TODO: fix this
-const makeHours = () => [{
-  day: 'Monday',
+
+const hoursFromDay = day => ({
+  day,
   open: '0500',
   close: '1100',
-},
-{
-  day: 'Tuesday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Wednesday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Thursday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Friday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Saturday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Sunday',
-  open: '0500',
-  close: '1100',
-}];
+});
+
+const makeHours = () => {
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+    'Saturday', 'Sunday'];
+
+  return days.map(hoursFromDay);
+};
+
+
+// [{
+//   day: 'Monday',
+//   open: '0500',
+//   close: '1100',
+// },
+// {
+//   day: 'Tuesday',
+//   open: '0500',
+//   close: '1100',
+// },
+// {
+//   day: 'Wednesday',
+//   open: '0500',
+//   close: '1100',
+// },
+// {
+//   day: 'Thursday',
+//   open: '0500',
+//   close: '1100',
+// },
+// {
+//   day: 'Friday',
+//   open: '0500',
+//   close: '1100',
+// },
+// {
+//   day: 'Saturday',
+//   open: '0500',
+//   close: '1100',
+// },
+// {
+//   day: 'Sunday',
+//   open: '0500',
+//   close: '1100',
+// }];
 
 // The values of `location` and `hours` are stringified JSON. They are
 // surrounded by double quotes so Postgres knows they are strings. In `hours`,
@@ -181,3 +195,5 @@ module.exports = {
   handleSeeding,
   seedInChunks,
 };
+
+console.log(makeHours());
