@@ -179,4 +179,5 @@ const handleSeeding = () => {
 
 module.exports = {
   handleSeeding,
+  seedInChunks,
 };
