@@ -10,5 +10,7 @@ create table restaurants (
   hours text --     stringified JSON.
 );
 
+create index on restaurants ("name");
+
 -- To load manually, run:
 -- psql -d [db name] -f /full/path/to/schema.sql
