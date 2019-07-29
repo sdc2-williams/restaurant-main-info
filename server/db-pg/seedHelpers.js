@@ -8,6 +8,11 @@ const database = process.env.DATABASE_NAME;
 const startId = Number(process.env.START_ID) || 1;
 const endId = Number(process.env.END_ID) || 1000;
 
+// The number of chunks that the restaurant data will be divided into when
+// creating the CSV. Increase this number if you get out-of-memory errors while
+// seeding.
+const numberOfChunks = Number(process.env.NUMBER_OF_CHUNKS) || 100;
+
 const lorem = new LoremIpsum({
   wordsPerSentence: {
     max: 15,
@@ -19,50 +24,27 @@ const makeName = () => lorem.generateWords(2);
 
 const makeDescription = () => lorem.generateSentences(2);
 
-// TODO: refactor this
-const makeAddress = () => Math.floor(Math.random() * Math.floor(100)) + ' ' + lorem.generateWords(1) + ' ' + ['St.', 'Blvd.', 'Rd.'][Math.floor(Math.random() * Math.floor(3))];
+const randomInt = (min, max) => min + Math.floor(Math.random() * max);
 
-const makeDeliveryTime = () => Math.floor(Math.random() * Math.floor(60));
+const makeAddress = () => `${randomInt(1, 300)} ${lorem.generateWords(1)} ${['St.', 'Blvd.', 'Rd.'][randomInt(0, 2)]}`;
+
+const makeDeliveryTime = () => randomInt(1, 60);
 
 // TODO: fix this
 const makeLocation = () => [33.067149, -117.263955];
 
-// TODO: fix this
-const makeHours = () => [{
-  day: 'Monday',
+const hoursFromDay = day => ({
+  day,
   open: '0500',
   close: '1100',
-},
-{
-  day: 'Tuesday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Wednesday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Thursday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Friday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Saturday',
-  open: '0500',
-  close: '1100',
-},
-{
-  day: 'Sunday',
-  open: '0500',
-  close: '1100',
-}];
+});
+
+const makeHours = () => {
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+    'Saturday', 'Sunday'];
+
+  return days.map(hoursFromDay);
+};
 
 // The values of `location` and `hours` are stringified JSON. They are
 // surrounded by double quotes so Postgres knows they are strings. In `hours`,
@@ -108,8 +90,8 @@ const seedChunk = (start, end) => {
 
 // Returns an array of sub-ranges that equally divide the given range. For
 // example, `makeChunkRanges(1, 100)` => [[1, 10], [11, 20], ..., [91, 100]]
+// (Output varies depending on value of `numberOfChunks`.)
 const makeChunkRanges = (start, end) => {
-  const numberOfChunks = 100; // Increase this number if you get out-of-memory errors when seeding
   const rangeLength = end - start;
   const chunkSize = Math.floor(rangeLength / numberOfChunks);
 
@@ -180,4 +162,5 @@ const handleSeeding = () => {
 module.exports = {
   handleSeeding,
   seedInChunks,
+  makeRestaurant,
 };

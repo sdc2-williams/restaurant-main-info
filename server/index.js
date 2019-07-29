@@ -1,5 +1,5 @@
 const express = require('express');
-const models = require('./db/models.js');
+const model = require('./db-pg/model.js');
 
 const app = express();
 const PORT = 2000;
@@ -13,44 +13,41 @@ app.use(express.json());
 app.get('/api/restaurant/name/:name', (req, res) => {
   const { name } = req.params;
 
-  models.getRestByName(name)
-    .then(restData => res.status(202).send(restData).end())
-    .catch(err => res.status(400).send(err).end());
+  model.getRestaurantByName(name)
+    .then(restaurant => res.json(restaurant))
+    .catch(err => res.json(err));
 });
 
 app.get('/api/restaurant/:id', (req, res) => {
   const { id } = req.params;
 
-  models.getRest(id)
-    .then(restData => res.status(202).send(restData).end())
-    .catch(err => res.status(400).send(err).end());
+  model.getRestaurant(id)
+    .then(restaurant => res.json(restaurant))
+    .catch(err => res.json(err));
 });
 
 app.post('/api/restaurant', (req, res) => {
   const newRestaurant = req.body;
 
-  models.postRest(newRestaurant)
+  model.postRestaurant(newRestaurant)
     .then(() => res.json(newRestaurant))
-    .catch(err => res.status(400).send(err).end());
+    .catch(err => res.json(err));
 });
 
 app.put('/api/restaurant/:id', (req, res) => {
   const { id } = req.params;
   const valuesToUpdate = req.body;
 
-  models.updateRest(id, valuesToUpdate)
-    .then(updatedRest => res.json(updatedRest))
-    .catch(err => res.status(400).send(err).end());
+  model.updateRestaurant(id, valuesToUpdate)
+    .then(updatedRestaurant => res.json(updatedRestaurant))
+    .catch(err => res.json(err));
 });
 
 app.delete('/api/restaurant/:id', (req, res) => {
   const { id } = req.params;
-  let deletedRest;
 
-  models.getRest(id)
-    .then(dbResponse => deletedRest = dbResponse)
-    .then(() => models.deleteRest(id))
-    .then(() => res.json(deletedRest))
+  model.deleteRestaurant(id)
+    .then(deletedRestaurant => res.json(deletedRestaurant))
     .catch(err => res.status(202).send(err).end());
 });
 

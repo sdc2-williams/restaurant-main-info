@@ -10,8 +10,8 @@
   "scripts": {
     "build:dev": "webpack -d --watch",
     "build": "webpack",
-    "start": "node ./server/server.js",
-    "start:dev": "nodemon ./server/server.js",
+    "start": "node ./server/index.js",
+    "start:dev": "nodemon ./server/index.js",
     "seed:pg": "node ./server/db-pg/seed.js",
     "seed:cassandra": "node ./server/db-cassandra/seed.js",
     "test": "jest"
@@ -44,6 +44,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-modal": "^3.8.2",
+    "request-promise": "^4.2.4",
     "styled-components": "^4.3.2",
     "supertest": "^4.0.2"
   },

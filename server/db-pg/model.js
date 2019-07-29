@@ -19,8 +19,8 @@ const parseRestaurant = (restaurant) => {
 
 // Same as `pasreRestaurant`, except it stringifies the relevant values.
 const stringifyRestaurant = (restaurant) => {
-  restaurant.location = JSON.stringify(restaurant.location || '');
-  restaurant.hours = JSON.stringify(restaurant.hours || '');
+  if (restaurant.location) restaurant.location = JSON.stringify(restaurant.location || '');
+  if (restaurant.hours) restaurant.hours = JSON.stringify(restaurant.hours || '');
   return restaurant;
 };
 
@@ -42,7 +42,7 @@ const deleteRestaurant = (id) => {
   const queryString = `delete from restaurants where id = ${id} returning *`;
 
   return client.query(queryString)
-    .then(res => res.rows[0]);
+    .then(res => parseRestaurant(res.rows[0]));
 };
 
 const updateRestaurant = (id, valuesToUpdate) => {
@@ -52,13 +52,14 @@ const updateRestaurant = (id, valuesToUpdate) => {
     .join(', ');
   const queryString = `update restaurants set ${updateAssignments} where id = ${id}  returning *`;
 
-  return client.query(queryString);
+  return client.query(queryString)
+    .then(res => parseRestaurant(res.rows[0]));
 };
 
 const postRestaurant = (restaurant) => {
   stringifyRestaurant(restaurant);
   const columns = Object.keys(restaurant);
-  const values = Object.values(restaurant); // must these be in single quotes?
+  const values = Object.values(restaurant).map(value => `'${value}'`);
   const queryString = `insert into restaurants(${columns.join(', ')}) values(${values.join(', ')})`;
 
   return client.query(queryString);
