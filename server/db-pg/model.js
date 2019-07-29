@@ -42,7 +42,7 @@ const deleteRestaurant = (id) => {
   const queryString = `delete from restaurants where id = ${id} returning *`;
 
   return client.query(queryString)
-    .then(res => res.rows[0]);
+    .then(res => parseRestaurant(res.rows[0]));
 };
 
 const updateRestaurant = (id, valuesToUpdate) => {
@@ -53,7 +53,7 @@ const updateRestaurant = (id, valuesToUpdate) => {
   const queryString = `update restaurants set ${updateAssignments} where id = ${id}  returning *`;
 
   return client.query(queryString)
-    .then(res => res.rows[0]);
+    .then(res => parseRestaurant(res.rows[0]));
 };
 
 const postRestaurant = (restaurant) => {
@@ -72,4 +72,3 @@ module.exports = {
   postRestaurant,
   updateRestaurant,
 };
-
