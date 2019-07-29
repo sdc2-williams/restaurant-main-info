@@ -52,13 +52,14 @@ const updateRestaurant = (id, valuesToUpdate) => {
     .join(', ');
   const queryString = `update restaurants set ${updateAssignments} where id = ${id}  returning *`;
 
-  return client.query(queryString);
+  return client.query(queryString)
+    .then(res => res.rows[0]);
 };
 
 const postRestaurant = (restaurant) => {
   stringifyRestaurant(restaurant);
   const columns = Object.keys(restaurant);
-  const values = Object.values(restaurant); // must these be in single quotes?
+  const values = Object.values(restaurant).map(value => `'${value}'`);
   const queryString = `insert into restaurants(${columns.join(', ')}) values(${values.join(', ')})`;
 
   return client.query(queryString);
@@ -71,3 +72,10 @@ module.exports = {
   postRestaurant,
   updateRestaurant,
 };
+
+
+// getRestaurant(23423)
+//   .then(console.log);
+
+// updateRestaurant(23423, { name: 'Tim Hortons' })
+//   .then(console.log);
