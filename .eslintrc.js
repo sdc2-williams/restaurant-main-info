@@ -12,5 +12,8 @@ module.exports = {
     "no-console": "off",
     "prefer-template": "off",
     "no-param-reassign": "off"
+  },
+  env: {
+    "jest": "true"
   }
 };
