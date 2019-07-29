@@ -94,7 +94,7 @@ class MainInfoBar extends React.Component {
       address: 'address',
       description: '',
       location: [], // LAT and LONG cords
-      estDelivery: '', // Number from 0-60
+      estdelivery: '', // Number from 0-60
       hours: [], // array of Objects, properties = day, open, close
       moreInfoOpen: false, // if more info div renders
       scheduleInfoOpen: false, // if schedule info div renders
@@ -108,10 +108,10 @@ class MainInfoBar extends React.Component {
       .then(res => res.json())
       .then((data) => {
         const {
-          name, address, hours, location, description, estDelivery,
+          name, address, hours, location, description, estdelivery,
         } = data;
         this.setState({
-          name, address, location, hours, description, estDelivery,
+          name, address, location, hours, description, estdelivery,
         });
       });
   }
@@ -133,7 +133,7 @@ class MainInfoBar extends React.Component {
   render() {
     // destructuring all of the state information
     const {
-      name, address, hours, location, scheduleInfoOpen, moreInfoOpen, description, estDelivery,
+      name, address, hours, location, scheduleInfoOpen, moreInfoOpen, description, estdelivery,
     } = this.state;
     return (
     <MainBar>
@@ -141,7 +141,7 @@ class MainInfoBar extends React.Component {
       <RestaurantDes>{description}</RestaurantDes>
       <div>
       <MoreInfoButton onClick={this.toggleSchedule}>
-        <TimeIcon>{estDelivery}-{estDelivery + 15} MIN</TimeIcon>
+        <TimeIcon>{estdelivery}-{estdelivery + 15} MIN</TimeIcon>
       </MoreInfoButton>
       <ReactModal style={customStyles} isOpen={scheduleInfoOpen} onRequestClose={this.toggleSchedule}>
               <ScheduleDelivery />
