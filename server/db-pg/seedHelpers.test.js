@@ -8,7 +8,7 @@ describe('Restaurant constructor', () => {
   });
 
   it('returns an object with the correct keys', () => {
-    const expectedKeys = ['id', 'name', 'description', 'address', 'estDelivery', 'location', 'hours']
+    const expectedKeys = ['id', 'name', 'description', 'address', 'estDelivery', 'location', 'hours'];
     expect(Object.keys(restaurant)).toEqual(expectedKeys);
   });
 
