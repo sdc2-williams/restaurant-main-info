@@ -109,7 +109,7 @@ class MainInfoBar extends React.Component {
       .then((data) => {
         const {
           name, address, hours, location, description, estDelivery,
-        } = data[0];
+        } = data;
         this.setState({
           name, address, location, hours, description, estDelivery,
         });
