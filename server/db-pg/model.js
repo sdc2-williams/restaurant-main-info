@@ -19,8 +19,8 @@ const parseRestaurant = (restaurant) => {
 
 // Same as `pasreRestaurant`, except it stringifies the relevant values.
 const stringifyRestaurant = (restaurant) => {
-  restaurant.location = JSON.stringify(restaurant.location || '');
-  restaurant.hours = JSON.stringify(restaurant.hours || '');
+  if (restaurant.location) restaurant.location = JSON.stringify(restaurant.location || '');
+  if (restaurant.hours) restaurant.hours = JSON.stringify(restaurant.hours || '');
   return restaurant;
 };
 
@@ -73,9 +73,3 @@ module.exports = {
   updateRestaurant,
 };
 
-
-// getRestaurant(23423)
-//   .then(console.log);
-
-// updateRestaurant(23423, { name: 'Tim Hortons' })
-//   .then(console.log);
