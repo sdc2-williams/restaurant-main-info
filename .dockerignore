@@ -1,3 +1,6 @@
-node_modules
+node_modules/
 npm-debug.log
-restaurants.csv
+**/restaurants.csv
+**.csv
+build/
+public/
