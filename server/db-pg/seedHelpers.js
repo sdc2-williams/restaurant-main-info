@@ -162,4 +162,5 @@ const handleSeeding = () => {
 module.exports = {
   handleSeeding,
   seedInChunks,
+  makeRestaurant,
 };
