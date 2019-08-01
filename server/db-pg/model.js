@@ -1,12 +1,7 @@
 const { Client } = require('pg');
 require('dotenv').config();
 
-const database = process.env.DATABASE_NAME;
-
-const client = new Client({
-  database,
-});
-
+const client = new Client();
 client.connect();
 
 // This modifies the given restaurant object by parsing its `hours` and
