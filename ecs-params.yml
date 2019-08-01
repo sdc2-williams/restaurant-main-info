@@ -1,0 +1,9 @@
+version: 1
+task_definition:
+  services:
+    app:
+      cpu_shares: 100
+      mem_limit: 0.4GB
+    postgres:
+      cpu_shares: 100
+      mem_limit: 0.4GB
