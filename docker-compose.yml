@@ -5,6 +5,13 @@ services:
     build: .
     ports:
       - 2000:2000
+    environment:
+      - PGHOST=postgres
+      - PGUSER=postgres
+      - PGDATABASE=postgres
+      - START_ID=1
+      - END_ID=1002
+      - NUMBER_OF_CHUNKS=10
     links:
       - postgres
   postgres:
