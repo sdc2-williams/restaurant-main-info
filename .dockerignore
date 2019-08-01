@@ -3,4 +3,4 @@ npm-debug.log
 **/restaurants.csv
 **.csv
 build/
-public/
+public/*.js
