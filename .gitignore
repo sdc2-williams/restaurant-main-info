@@ -32,3 +32,5 @@ config.js
 
 # DB files
 restaurants.csv
+
+newrelic.js
