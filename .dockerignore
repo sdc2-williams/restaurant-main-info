@@ -2,5 +2,7 @@ node_modules/
 npm-debug.log
 **/restaurants.csv
 **.csv
+**.log
 build/
 public/*.js
+.vscode
