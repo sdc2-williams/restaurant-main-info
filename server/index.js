@@ -1,4 +1,5 @@
 require('newrelic');
+const compression = require('compression');
 const express = require('express');
 const model = require('./db-pg/model.js');
 
@@ -6,6 +7,7 @@ const app = express();
 const PORT = 2000;
 
 // Middleware
+app.use(compression());
 app.use(express.static((`${__dirname}/../public`)));
 app.use('/:id', express.static((`${__dirname}/../public`)));
 app.use(express.json());
