@@ -1,10 +1,12 @@
 const fs = require('fs');
-const { exec } = require('child_process');
+const { Client } = require('pg');
+const copyFrom = require('pg-copy-streams').from;
 const { LoremIpsum } = require('lorem-ipsum');
-
 require('dotenv').config();
 
-const database = process.env.DATABASE_NAME;
+const client = new Client();
+client.connect();
+
 const startId = Number(process.env.START_ID) || 1;
 const endId = Number(process.env.END_ID) || 1000;
 
@@ -118,37 +120,44 @@ const seedInChunks = () => {
 };
 
 const loadCSVIntoDatabase = () => new Promise((resolve, reject) => {
-  const command = exec(`psql -d ${database} -c "copy restaurants from '${__dirname}/restaurants.csv' csv delimiter ','"`);
-
-  command.stderr.on('data', (err) => {
-    reject(err);
-  });
-
-  command.on('close', (code) => {
-    if (code === 0) {
+  const done = (err) => {
+    if (err) {
+      reject(err);
+    } else {
       resolve('CSV data loaded into database.');
-    } else {
-      reject(new Error('Unable to add CSV data into database'));
     }
-  });
+  };
+
+  const database = client.query(copyFrom('COPY restaurants FROM STDIN csv'));
+  const csv = fs.createReadStream(`${__dirname}/restaurants.csv`);
+
+  csv.on('error', done);
+  database.on('error', done);
+  database.on('end', done);
+  csv.pipe(database);
 });
 
-const clearTable = () => new Promise((resolve, reject) => {
-  const command = exec(`psql -d ${database} -f ${__dirname}/schema.sql`);
+const createTable = () => (
+  client.query(`
+    drop table if exists restaurants;
 
-  command.on('close', (code) => {
-    if (code === 0) {
-      resolve('`restaurants` table cleared.');
-    } else {
-      reject(new Error('Unable to clear table'));
-    }
-  });
-});
+    create table restaurants (
+      id serial primary key,
+      name varchar(50),
+      description varchar(300),
+      address varChar(250),
+      estDelivery smallint,
+      location text, -- These two columns store
+      hours text --     stringified JSON.
+    );
+
+    create index on restaurants ("name");`)
+);
 
 const handleSeeding = () => {
   console.log(`Seeding database with ${endId - startId + 1} items...`);
 
-  return clearTable()
+  return createTable()
     .then(() => seedInChunks())
     .then(() => console.log('Loading CSV into database...'))
     .then(() => loadCSVIntoDatabase())

@@ -1,13 +1,8 @@
-const { Client } = require('pg');
+const { Pool } = require('pg');
 require('dotenv').config();
 
-const database = process.env.DATABASE_NAME;
-
-const client = new Client({
-  database,
-});
-
-client.connect();
+const pool = new Pool();
+pool.connect();
 
 // This modifies the given restaurant object by parsing its `hours` and
 // `location` values, which are stored as stringified JSON in the database.
@@ -27,21 +22,21 @@ const stringifyRestaurant = (restaurant) => {
 const getRestaurant = (id) => {
   const queryString = `select * from restaurants where id = ${id}`;
 
-  return client.query(queryString)
+  return pool.query(queryString)
     .then(res => parseRestaurant(res.rows[0]));
 };
 
 const getRestaurantByName = (name) => {
   const queryString = `select * from restaurants where name = '${name}'`;
 
-  return client.query(queryString)
+  return pool.query(queryString)
     .then(res => parseRestaurant(res.rows[0]));
 };
 
 const deleteRestaurant = (id) => {
   const queryString = `delete from restaurants where id = ${id} returning *`;
 
-  return client.query(queryString)
+  return pool.query(queryString)
     .then(res => parseRestaurant(res.rows[0]));
 };
 
@@ -52,7 +47,7 @@ const updateRestaurant = (id, valuesToUpdate) => {
     .join(', ');
   const queryString = `update restaurants set ${updateAssignments} where id = ${id}  returning *`;
 
-  return client.query(queryString)
+  return pool.query(queryString)
     .then(res => parseRestaurant(res.rows[0]));
 };
 
@@ -62,7 +57,7 @@ const postRestaurant = (restaurant) => {
   const values = Object.values(restaurant).map(value => `'${value}'`);
   const queryString = `insert into restaurants(${columns.join(', ')}) values(${values.join(', ')})`;
 
-  return client.query(queryString);
+  return pool.query(queryString);
 };
 
 module.exports = {

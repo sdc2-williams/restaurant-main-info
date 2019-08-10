@@ -1,8 +1,7 @@
-FROM node:8-jessie
-WORKDIR /usr/src/mainbar
+FROM node:lts
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 2000
-RUN npm run build
-CMD ["node", "./server/server.js"]
+CMD npm run build && npm run seed:pg && npm start
