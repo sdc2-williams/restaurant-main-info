@@ -1,4 +1,4 @@
-# Postmates
+# Food Finder
 
 ## Related Projects
 
